@@ -1,6 +1,12 @@
 # Executive Summary
 
-**TL;DR:** Lockstep is a national certainty platform for England and Wales residential sales — upfront verified information, binding early commitment, and coordinated completion — distributed through estate agents with every referral fee disclosed.
+**Lockstep is the certainty layer for buying a home.**
+
+In England and Wales, a sale isn't really a sale until the very last moment. Everything up to exchange is a polite "maybe", so buyers fall for a home, spend thousands chasing it, and still watch almost one in three agreed deals collapse. That isn't bad luck. It's a market that never asks anyone to commit.
+
+We're changing what "yes" means. The facts about a home are checked and ready before the first viewing. When a buyer and seller agree, they sign a reservation that actually holds. And from offer to keys, one team keeps the move moving, instead of leaving it to hope and a chain of strangers.
+
+We don't replace the estate agent. We give them the one promise they've never been able to make: certainty. So Lockstep goes to market through the people who already own the relationship, with every partner fee shown in plain sight.
 
 ---
 
