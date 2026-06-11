@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lockstep — Planning deck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root, [data-theme="dark"] {
+      --bg: #080b10;
+      --bg-elevated: #0f141c;
+      --surface: #141c28;
+      --surface-hover: #1a2433;
+      --border: #243044;
+      --border-strong: #2f4060;
+      --text: #e8eef6;
+      --text-muted: #8fa3be;
+      --heading: #f4f8fc;
+      --brand: #52b788;
+      --brand-dim: rgba(82, 183, 136, 0.14);
+      --accent: #95d5b2;
+      --accent-dim: rgba(149, 213, 178, 0.08);
+      --link: #74c69d;
+      --code-bg: #1a2433;
+      --pre-bg: #0a0f16;
+      --nav-bg: #080b10;
+      --chart-border: #243044;
+    }
+    [data-theme="light"] {
+      --bg: #f4f6f9;
+      --bg-elevated: #ffffff;
+      --surface: #ffffff;
+      --surface-hover: #f0f4f8;
+      --border: #d8e0ea;
+      --border-strong: #c2cdd9;
+      --text: #1a2332;
+      --text-muted: #5a6b82;
+      --heading: #0a0e14;
+      --brand: #2d6a4f;
+      --brand-dim: rgba(45, 106, 79, 0.12);
+      --accent: #1b4332;
+      --accent-dim: rgba(27, 67, 50, 0.08);
+      --link: #2d6a4f;
+      --code-bg: #eef2f7;
+      --pre-bg: #1a2332;
+      --nav-bg: #f4f6f9;
+      --chart-border: #d8e0ea;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "DM Sans", system-ui, sans-serif;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: var(--text);
+      background: var(--bg);
+      margin: 0;
+      padding-top: 4.25rem;
+    }
+    h1, h2, h3, h4, .logo, .nav-brand {
+      font-family: "Montserrat", system-ui, sans-serif;
+      letter-spacing: -0.02em;
+    }
+    .top-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.75rem 1.5rem;
+      background: var(--nav-bg);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-decoration: none;
+      color: var(--heading);
+      font-weight: 800;
+      font-size: 1.15rem;
+      letter-spacing: 0.06em;
+    }
+    .nav-brand .mark {
+      width: 10px;
+      height: 10px;
+      background: var(--brand);
+    }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .theme-toggle {
+      font-family: "DM Sans", sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.45rem 0.9rem;
+      border: 1px solid var(--border-strong);
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .theme-toggle:hover {
+      border-color: var(--brand);
+      background: var(--brand-dim);
+    }
+    .nav-pill {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--brand);
+      padding: 0.35rem 0.65rem;
+      background: var(--brand-dim);
+      border: 1px solid transparent;
+    }
+    .hero {
+      background: var(--bg-elevated);
+      border-bottom: 1px solid var(--border);
+      padding: 3.5rem 1.5rem 3rem;
+    }
+    .hero-inner {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    .hero-eyebrow {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--brand);
+      margin: 0 0 0.75rem;
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3rem);
+      font-weight: 800;
+      color: var(--heading);
+      margin: 0 0 1rem;
+      line-height: 1.15;
+      max-width: 18ch;
+    }
+    .hero-lead {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 52ch;
+      margin: 0;
+    }
+    .hero-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .hero-stat strong {
+      display: block;
+      font-family: "Montserrat", sans-serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--brand);
+    }
+    .hero-stat span {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+    .toc-panel {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 0;
+      margin-bottom: 2rem;
+    }
+    .toc-panel h2 {
+      margin: 0 0 1rem;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+    }
+    .toc {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 0.35rem 1.5rem;
+    }
+    .toc li { margin: 0; }
+    .toc a {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.95rem;
+      padding: 0.35rem 0;
+      transition: color 0.15s;
+    }
+    .toc a:hover { color: var(--brand); }
+    .toc-num {
+      font-family: "Montserrat", sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--brand);
+      min-width: 1.5rem;
+    }
+    .doc-section {
+      border-bottom: 1px solid var(--border);
+      padding: 2.5rem 0;
+      margin-bottom: 0;
+    }
+    .doc-section h1 {
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: var(--heading);
+      margin: 0 0 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid var(--brand);
+    }
+    .doc-section h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--heading);
+      margin: 2rem 0 0.75rem;
+    }
+    .doc-section h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 1.5rem 0 0.5rem;
+    }
+    .doc-section p { margin: 0.75rem 0; }
+    .doc-section a {
+      color: var(--link);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .table-wrap {
+      overflow-x: auto;
+      margin: 1.25rem 0;
+      border: 1px solid var(--border);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    th, td {
+      padding: 0.65rem 0.85rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      background: var(--bg-elevated);
+      font-family: "Montserrat", sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--surface-hover); }
+    blockquote {
+      margin: 1.25rem 0;
+      padding: 1rem 1.25rem;
+      border-left: 3px solid var(--brand);
+      background: var(--brand-dim);
+      color: var(--text);
+    }
+    blockquote p { margin: 0; font-style: italic; }
+    code {
+      font-family: "DM Sans", monospace;
+      font-size: 0.88em;
+      background: var(--code-bg);
+      padding: 0.12rem 0.4rem;
+      color: var(--brand);
+    }
+    pre {
+      background: var(--pre-bg);
+      color: #c8d4e0;
+      padding: 1.25rem;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+    }
+    pre code { background: none; color: inherit; padding: 0; }
+    .mermaid-wrap {
+      margin: 1.5rem 0;
+      padding: 1rem;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      overflow-x: auto;
+    }
+    figure.chart {
+      margin: 1.75rem 0;
+      text-align: center;
+    }
+    figure.chart img {
+      max-width: 100%;
+      height: auto;
+      border: 1px solid var(--chart-border);
+      background: var(--bg-elevated);
+    }
+    figure.chart figcaption {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.65rem;
+      text-align: left;
+    }
+    ul, ol { padding-left: 1.35rem; }
+    ul.checklist { list-style: none; padding-left: 0; }
+    ul.checklist li { margin-bottom: 0.5rem; }
+    hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2rem 0;
+    }
+    footer {
+      text-align: center;
+      padding: 2.5rem 1.5rem;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border);
+    }
+    footer strong { color: var(--brand); }
+    @media print {
+      .top-nav, .theme-toggle { display: none; }
+      body { padding-top: 0; background: white; color: black; }
+      .doc-section { break-inside: avoid; }
+    }
+    @media (max-width: 640px) {
+      .toc { grid-template-columns: 1fr; }
+      .doc-section { padding: 1.75rem 0; }
+      .hero-stats { flex-direction: column; gap: 0.75rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="top-nav" aria-label="Primary">
+    <a class="nav-brand" href="#top"><span class="mark" aria-hidden="true"></span>LOCKSTEP</a>
+    <div class="nav-actions">
+      <span class="nav-pill">Planning deck</span>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-pressed="false">Light mode</button>
+    </div>
+  </nav>
+
+  <header class="hero" id="top">
+    <div class="hero-inner">
+      <p class="hero-eyebrow">UK property · certainty layer</p>
+      <h1>Stop shipping deals that never close.</h1>
+      <p class="hero-lead">Lockstep is the sale-ready + secured rail for agents: upfront pack, binding reservation, disclosed partner fees. Stats are sourced; the model is ours to prove.</p>
+      <div class="hero-stats">
+        <div class="hero-stat"><strong>29.8%</strong><span>fall-through 2024 (GOTO)</span></div>
+        <div class="hero-stat"><strong>122d</strong><span>avg time to buy</span></div>
+        <div class="hero-stat"><strong>≤2%</strong><span>felt informed pre-offer</span></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <nav class="toc-panel" aria-label="Contents">
+      <h2>Jump to</h2>
+      <ul class='toc'><li><a href="#executive-summary"><span class="toc-num">00</span>Executive Summary</a></li><li><a href="#market-and-problem"><span class="toc-num">01</span>Market and Problem</a></li><li><a href="#product-and-mechanics"><span class="toc-num">02</span>Product and Mechanics</a></li><li><a href="#economics"><span class="toc-num">03</span>Economics</a></li><li><a href="#competition-and-risk"><span class="toc-num">04</span>Competition and Risk</a></li><li><a href="#go-to-market"><span class="toc-num">05</span>Go-to-Market</a></li><li><a href="#sources-and-glossary"><span class="toc-num">06</span>Sources and Glossary</a></li></ul>
+    </nav>
+    <section class="doc-section"><h1 id="executive-summary">Executive Summary</h1>
+<p><strong>TL;DR:</strong> Lockstep is a national certainty platform for England and Wales residential sales — upfront verified information, binding early commitment, and coordinated completion — distributed through estate agents with every referral fee disclosed.</p>
+<hr>
+<h2 id="the-problem">The problem</h2>
+<p>Roughly <strong>one in three</strong> agreed sales in England and Wales never complete. The average purchase takes <strong>~120 days</strong>. Only <strong>≤2%</strong> of movers felt they had enough information before making an offer (<a href="https://www.gov.uk/government/consultations/home-buying-and-selling-reform/home-buying-and-selling-reform" target="_blank" rel="noopener">Ministry of Housing, Communities and Local Government consultation</a>). The wasted cost to the economy is <strong>~£8.6 billion per year</strong> (<a href="https://thenegotiator.co.uk/news/uk-housing-market-news/report-uk-worst-property-transaction-fall-through-rates/" target="_blank" rel="noopener">GOTO Group</a>).</p>
+<p>We are not solving affordability (<strong>81%</strong> still cite it — <a href="https://hoa.org.uk/wp-content/uploads/2025/08/2025-HomeOwner-survey-report-Final.pdf" target="_blank" rel="noopener">HomeOwners Alliance 2025</a>). Our wedge is <strong>certainty and information</strong> — fixable with product and process.</p>
+<div class='table-wrap'><table><thead><tr><th>Pain</th><th>Number</th><th>Source</th></tr></thead><tbody><tr><td>Deals that die</td><td><strong>29.8%</strong> in 2024</td><td><a href="https://thenegotiator.co.uk/news/uk-housing-market-news/report-uk-worst-property-transaction-fall-through-rates/" target="_blank" rel="noopener">GOTO</a></td></tr><tr><td>Buyer burn per dead deal</td><td><strong>~£2,727</strong></td><td><a href="https://thenegotiator.co.uk/news/uk-housing-market-news/report-uk-worst-property-transaction-fall-through-rates/" target="_blank" rel="noopener">GOTO</a></td></tr><tr><td>Scotland vs England fall-through</td><td><strong>~9%</strong> vs <strong>~30%</strong></td><td><a href="https://espc.com/news/post/property-sales-more-likely-to-be-successful-in-scotland-than-england" target="_blank" rel="noopener">ESPC</a></td></tr></tbody></table></div>
+<hr>
+<h2 id="what-we-are-building">What we are building</h2>
+<p><strong>Sale-ready and secured</strong> for England and Wales:</p>
+<ol>
+<li><strong>Seller-funded sale-ready pack</strong> — title, searches, property information questionnaire (TA6-style), independent survey with buyer reliance — <strong>free to every viewer</strong> on the listing</li>
+<li><strong>Reservation agreement</strong> — both sides commit at offer acceptance; buyer pays a certainty fee (<strong>~£500</strong>, deliberately just under Redbrik&#x27;s proven <strong>£595</strong> anchor)</li>
+<li><strong>Completion rails</strong> — conveyancing, mortgage, survey, insurance through vetted partners; one tracker</li>
+<li><strong>Fees on the table</strong> — every referral disclosed before the consumer chooses a partner</li>
+</ol>
+<p>We orchestrate. We do not employ lawyers, employ surveyors, or buy houses.</p>
+<p><strong>Product surfaces:</strong> one shared platform, two doors (buyer portal and agent portal), one public shop window (shareable pack links on every listing that pull buyers in at near-zero customer acquisition cost).</p>
+<hr>
+<h2 id="unit-economics-base-case-illustrative">Unit economics (base case, illustrative)</h2>
+<div class='table-wrap'><table><thead><tr><th>Line</th><th>Amount</th></tr></thead><tbody><tr><td>Gross revenue per completed deal</td><td><strong>~£1,038</strong></td></tr><tr><td>Contribution margin per completed deal</td><td><strong>~£642–677</strong></td></tr><tr><td>Agent channel share</td><td><strong>30%</strong> of referral revenue (40% for founding partners, first 24 months)</td></tr></tbody></table></div>
+<p>Detail: <a href="03-economics.md" target="_blank" rel="noopener">03-economics.md</a>.</p>
+<hr>
+<h2 id="why-now">Why now</h2>
+<ul>
+<li>The Ministry of Housing, Communities and Local Government is pushing <strong>upfront information and earlier binding</strong> (2025 consultation)</li>
+<li>Fall-through <strong>doubled</strong> 2022→2024: <strong>16% → 29.8%</strong></li>
+<li>Incumbents own <strong>slices</strong>: Gazeal = commitment; Moverly = data; Redbrik = full stack but one region only</li>
+<li><strong>Redbrik proved the model works</strong> (~8% fall-through, mandatory on every listing) but grows by acquiring branches, not building a national platform — <strong>the platform lane is open</strong></li>
+<li>Nobody national on <strong>commitment + data + multi-rail + transparent fees</strong></li>
+</ul>
+<hr>
+<h2 id="go-to-market-short-version">Go-to-market (short version)</h2>
+<p><strong>Agents first. No consumer ad spend.</strong> (Emoov spent ~£150M for ~7% share — we are not repeating that.)</p>
+<p>Agents adopt because Lockstep <strong>protects commission they have already earned</strong> (roughly a third of agreed sales collapse; each costs the agency ~£4,123 plus lost £3,000–6,000 commission), lets them <strong>co-own the product early</strong> (founding-partner programme), and costs <strong>nothing to switch on</strong> (free &quot;Lockstep Ready&quot; listing badge; rails are opt-in).</p>
+<div class='table-wrap'><table><thead><tr><th>Phase</th><th>Ship</th></tr></thead><tbody><tr><td><strong>0</strong> (wk 1–8)</td><td>Wizard-of-Oz with <strong>1 founding-partner</strong> branch</td></tr><tr><td><strong>1</strong> (mo 2–5)</td><td>Buyer portal + shareable pack links; 20–40 deals</td></tr><tr><td><strong>2</strong> (mo 5–10)</td><td>Agent portal; regional density</td></tr><tr><td><strong>3–4</strong></td><td>Scale channel; chain tools later</td></tr></tbody></table></div>
+<p>Detail: <a href="05-go-to-market.md" target="_blank" rel="noopener">05-go-to-market.md</a>.</p>
+<hr>
+<h2 id="risks-we-are-watching">Risks we are watching</h2>
+<ul>
+<li>Agents do not adopt → no distribution</li>
+<li>Rails do not attach → thin margin (Gazeal trap)</li>
+<li>Chains → beachhead is chain-free; pause-not-penalise for chained deals</li>
+<li>Honest sellers only → adverse selection by design (reframed as feature)</li>
+<li>Government commoditises data → we own commitment and coordination</li>
+</ul>
+<p>Detail: <a href="04-competition-and-risk.md" target="_blank" rel="noopener">04-competition-and-risk.md</a>.</p>
+<hr>
+<h2 id="first-proof-point">First proof point</h2>
+<p><strong>One agent. Five deals. Spreadsheet + DocuSign. Measure completion rate and attach.</strong></p>
+<p>If completion <strong>&gt;70%</strong> and rails stick → build. If not → fix the manual playbook before writing code.</p>
+<hr>
+<h2 id="document-map">Document map</h2>
+<div class='table-wrap'><table><thead><tr><th>Doc</th><th>Contents</th></tr></thead><tbody><tr><td><a href="01-market-and-problem.md" target="_blank" rel="noopener">01-market-and-problem</a></td><td>Market size, problem clusters, Scotland proof point, regulatory tailwind</td></tr><tr><td><a href="02-product-and-mechanics.md" target="_blank" rel="noopener">02-product-and-mechanics</a></td><td>Product, two-layer model, flows, chain handling</td></tr><tr><td><a href="03-economics.md" target="_blank" rel="noopener">03-economics</a></td><td>Revenue model, unit economics, agent economics</td></tr><tr><td><a href="04-competition-and-risk.md" target="_blank" rel="noopener">04-competition-and-risk</a></td><td>Competitors, precedents, risk register, mitigations</td></tr><tr><td><a href="05-go-to-market.md" target="_blank" rel="noopener">05-go-to-market</a></td><td>Agent adoption, product surfaces, roadmap, metrics</td></tr><tr><td><a href="06-sources-and-glossary.md" target="_blank" rel="noopener">06-sources-and-glossary</a></td><td>Source index and plain-English glossary</td></tr></tbody></table></div>
+<hr>
+<p><strong>Why it matters:</strong> Investors and agents need one story — a proven regional model with a national platform gap, a capital-efficient channel, and unit economics that only work if attach rates hold. Phase 0 proves that before we build.</p></section>
+<section class="doc-section"><h1 id="market-and-problem">Market and Problem</h1>
+<p><strong>TL;DR:</strong> England and Wales residential sales are a commitment-free zone until exchange — one in three agreed deals die, buyers offer blind, and nobody owns end-to-end coordination. Scotland shows the fix works when information and early binding come together.</p>
+<hr>
+<h2 id="headline-statistics">Headline statistics</h2>
+<p>Every figure below is sourced — see <a href="06-sources-and-glossary.md" target="_blank" rel="noopener">06-sources-and-glossary.md</a>.</p>
+<div class='table-wrap'><table><thead><tr><th>Statistic</th><th>Value</th></tr></thead><tbody><tr><td>Fall-through rate (2024)</td><td><strong>29.8%</strong> (up from <strong>16%</strong> in 2022)</td></tr><tr><td>Economic cost of fall-throughs</td><td><strong>~£8.6 billion/year</strong></td></tr><tr><td>Average cost to buyer per failed sale</td><td><strong>~£2,727</strong></td></tr><tr><td>Average time to buy (2024)</td><td><strong>122 days</strong> (+30% vs a decade ago)</td></tr><tr><td>Movers with sufficient information before offer</td><td><strong>≤2%</strong></td></tr><tr><td>Listings with adequate material information</td><td><strong>~35%</strong></td></tr></tbody></table></div>
+<h3 id="fall-through-england-vs-scotland">Fall-through: England vs Scotland</h3>
+<div class='table-wrap'><table><thead><tr><th>Region</th><th>Fall-through rate</th></tr></thead><tbody><tr><td>England and Wales</td><td><strong>~27–30%</strong></td></tr><tr><td>Scotland</td><td><strong>~8.7–9%</strong></td></tr></tbody></table></div>
+<h3 id="top-causes-of-fall-through-2024">Top causes of fall-through (2024)</h3>
+<div class='table-wrap'><table><thead><tr><th>Cause</th><th>Share</th></tr></thead><tbody><tr><td>Bad survey / buyer walks away</td><td><strong>27.3%</strong></td></tr><tr><td>Mortgage difficulties</td><td><strong>22%</strong></td></tr><tr><td>Chain breakdown</td><td><strong>22%</strong></td></tr><tr><td>Gazumping (seller accepts higher offer)</td><td><strong>13%</strong></td></tr><tr><td>Gazundering (buyer lowers offer)</td><td><strong>11%</strong></td></tr></tbody></table></div>
+<h3 id="transaction-timelines">Transaction timelines</h3>
+<div class='table-wrap'><table><thead><tr><th>Metric</th><th>Value</th></tr></thead><tbody><tr><td>Offer to exchange (Apr 2025)</td><td><strong>104 days</strong> (vs <strong>76 days</strong> in 2019)</td></tr><tr><td>Leasehold offer to exchange</td><td><strong>155 days</strong> vs <strong>97 days</strong> freehold</td></tr><tr><td>Deals taking &gt;6 months to exchange</td><td><strong>17%</strong></td></tr></tbody></table></div>
+<h3 id="charts">Charts</h3>
+<ul>
+<li><code>../charts/01-fallthrough-trend.png</code></li>
+<li><code>../charts/02-england-vs-scotland-fallthrough.png</code></li>
+<li><code>../charts/03-fallthrough-causes.png</code></li>
+<li><code>../charts/04-transaction-time-trend.png</code></li>
+<li><code>../charts/05-housing-concerns-leasehold.png</code></li>
+</ul>
+<hr>
+<h2 id="the-core-problem">The core problem</h2>
+<p>England and Wales property is a <strong>commitment-free zone until exchange of contracts</strong>. Buyers offer blind, burn cash on surveys and legal work, then discover the lease is toxic at week ten — and either side can walk away with no penalty.</p>
+<p>We are not fighting affordability (<strong>81%</strong> still cite it). Our wedge is <strong>certainty and information</strong> — fixable with product and process.</p>
+<hr>
+<h2 id="three-problem-clusters">Three problem clusters</h2>
+<h3 id="1-information-asymmetry">1. Information asymmetry</h3>
+<ul>
+<li><strong>≤2%</strong> of home movers felt they received sufficient information before making an offer.</li>
+<li>Only <strong>~35%</strong> of listings contain adequate material information (<a href="https://www.gov.uk/government/consultations/material-information-in-property-listings/material-information-in-property-listings" target="_blank" rel="noopener">National Trading Standards Estate and Letting Agency Team</a>).</li>
+<li><strong>27.3%</strong> of 2024 fall-throughs: buyer pulled out after a bad survey.</li>
+</ul>
+<p><strong>Effect:</strong> Buyers commit emotionally and financially before knowing lease terms, structural issues, flood risk, or service charges.</p>
+<h3 id="2-lack-of-early-commitment">2. Lack of early commitment</h3>
+<ul>
+<li>Sales are <strong>not legally binding until exchange</strong> — often <strong>100+ days</strong> after offer acceptance.</li>
+<li><strong>Gazumping</strong> and <strong>gazundering</strong> account for <strong>24%</strong> of recent fall-throughs combined.</li>
+<li>GOTO identifies <strong>&quot;no upfront contractual commitment&quot;</strong> as a root cause of high fall-through.</li>
+</ul>
+<p><strong>Effect:</strong> Buyers pay for surveys and legal work with no guarantee; sellers face gazumping; agents lose commission on collapsed deals (~<strong>£4,123</strong> per fall-through to agencies).</p>
+<h3 id="3-fragmented-slow-process">3. Fragmented, slow process</h3>
+<ul>
+<li>Average purchase: <strong>120 days</strong> instruction to completion.</li>
+<li><strong>9% decline</strong> in conveyancing firms 2022–2023 while complexity increased.</li>
+<li><strong>22%</strong> of fall-throughs linked to chain breakdown.</li>
+</ul>
+<p><strong>Effect:</strong> No single party owns end-to-end coordination; timelines lengthen; stress and cost multiply.</p>
+<hr>
+<h2 id="market-size">Market size</h2>
+<div class='table-wrap'><table><thead><tr><th>Metric</th><th>Value</th></tr></thead><tbody><tr><td>UK residential transactions</td><td><strong>~1.1 million/year</strong> (~92,000/month)</td></tr><tr><td>Fall-through rate (England and Wales, 2024)</td><td><strong>~29.8%</strong></td></tr><tr><td>Wasted economic value</td><td><strong>~£8.6bn/year</strong></td></tr></tbody></table></div>
+<p>Per-deal unit economics: <a href="03-economics.md" target="_blank" rel="noopener">03-economics.md</a>.</p>
+<hr>
+<h2 id="scotland-as-proof-point">Scotland as proof point</h2>
+<p>Scotland combines <strong>mandatory upfront Home Report</strong> (seller-funded survey, questionnaire, and Energy Performance Certificate since 2008) with <strong>early binding missives</strong> (solicitor letters forming contract earlier in the process).</p>
+<div class='table-wrap'><table><thead><tr><th></th><th>England</th><th>Scotland</th></tr></thead><tbody><tr><td>Fall-through</td><td><strong>~27–30%</strong></td><td><strong>~8.7–9%</strong></td></tr><tr><td>Upfront condition info</td><td>Optional / late</td><td><strong>Mandatory before marketing</strong></td></tr><tr><td>Early binding</td><td>At exchange (~day 100+)</td><td>At <strong>conclusion of missives</strong></td></tr></tbody></table></div>
+<p>Lockstep productises this sequence for England and Wales — without waiting for legislation.</p>
+<hr>
+<h2 id="leasehold-rising-concern">Leasehold (rising concern)</h2>
+<ul>
+<li>Concern about leasehold rose <strong>42% → 64%</strong> (2015–2025) — largest increase of any housing issue.</li>
+<li><strong>4.3 million</strong> households hold at least one lease in England.</li>
+<li>Leasehold transactions take <strong>~58 days longer</strong> to exchange than freehold.</li>
+</ul>
+<p>Upfront leasehold disclosure is a core component of the Lockstep information pack.</p>
+<hr>
+<h2 id="regulatory-tailwind">Regulatory tailwind</h2>
+<p>The UK government <strong>Home Buying and Selling Reform</strong> consultation (Oct–Dec 2025) proposes mandatory upfront property information at listing, earlier binding agreements, professionalisation of property agents, and digital property logbooks.</p>
+<p>Lockstep aligns with this direction while building commercial proof ahead of legislation.</p>
+<hr>
+<h2 id="out-of-scope">Out of scope</h2>
+<div class='table-wrap'><table><thead><tr><th>Out of scope</th><th>Reason</th></tr></thead><tbody><tr><td>House price affordability</td><td>Macro; requires policy and building supply</td></tr><tr><td>Deposit saving</td><td>Macro; family support and government schemes</td></tr><tr><td>Replacing estate agents</td><td>They are the distribution channel</td></tr><tr><td>Employing conveyancers or surveyors</td><td>Regulatory burden; panel model instead</td></tr><tr><td>Buying houses (instant buyer model)</td><td>Capital-intensive; Upstix lost <strong>£7.25M</strong> pre-tax</td></tr></tbody></table></div>
+<hr>
+<p><strong>Why it matters:</strong> The market is large, the pain is quantified and worsening, and Scotland proves the mechanism. Lockstep does not need to invent demand — it needs to productise what already works regionally.</p>
+<figure class="chart"><img src="../charts/01-fallthrough-trend.png" alt="UK fall-through rate — GOTO Group" loading="lazy"><figcaption>UK fall-through rate — GOTO Group</figcaption></figure>
+<figure class="chart"><img src="../charts/02-england-vs-scotland-fallthrough.png" alt="Scotland vs England — ESPC" loading="lazy"><figcaption>Scotland vs England — ESPC</figcaption></figure>
+<figure class="chart"><img src="../charts/03-fallthrough-causes.png" alt="Why deals die" loading="lazy"><figcaption>Why deals die</figcaption></figure>
+<figure class="chart"><img src="../charts/04-transaction-time-trend.png" alt="Days to buy — TwentyCi / HOA" loading="lazy"><figcaption>Days to buy — TwentyCi / HOA</figcaption></figure>
+<figure class="chart"><img src="../charts/05-housing-concerns-leasehold.png" alt="Leasehold concern — HOA 2025" loading="lazy"><figcaption>Leasehold concern — HOA 2025</figcaption></figure></section>
+<section class="doc-section"><h1 id="product-and-mechanics">Product and Mechanics</h1>
+<p><strong>TL;DR:</strong> &quot;Sold subject to contract&quot; stops being a handshake and starts being a deal — because the pack is on the listing, both sides commit early, and someone runs the file to completion. Two layers for agents: a free listing badge (shop window) and opt-in completion rails (till).</p>
+<hr>
+<h2 id="in-one-sentence">In one sentence</h2>
+<p>The pack is on the listing, both sides commit at offer, and Lockstep coordinates completion through disclosed partner rails — sold through agents, fees on the table.</p>
+<hr>
+<h2 id="the-product-stack">The product stack</h2>
+<p><strong>Sale-ready and secured</strong> for England and Wales residential:</p>
+<ol>
+<li><strong>Sale-ready pack</strong> — Seller funds upfront: title, searches, property information questionnaire (TA6-style), independent survey with <strong>buyer reliance</strong>, leasehold disclosure where relevant</li>
+<li><strong>Reservation agreement</strong> — financial commitment at offer acceptance; buyer pays certainty fee (~<strong>£500</strong>)</li>
+<li><strong>Completion rails</strong> — conveyancing, mortgage, survey top-up, insurance through partners; one status board</li>
+<li><strong>Transparent economics</strong> — every referral fee shown before the consumer picks a partner</li>
+</ol>
+<p>We are the <strong>orchestrator</strong>. Not a law firm. Not a survey shop. Not an instant buyer.</p>
+<hr>
+<h2 id="two-layers-for-agents-shop-window-vs-till">Two layers for agents (shop window vs till)</h2>
+<div class='table-wrap'><table><thead><tr><th>Layer</th><th>Agent cost</th><th>What it does</th><th>Analogy</th></tr></thead><tbody><tr><td><strong>Lockstep Ready badge</strong></td><td><strong>£0</strong></td><td>Sale-ready pack on the listing; wins instructions at valuation</td><td>Shop window — pulls people in</td></tr><tr><td><strong>Completion rails</strong></td><td>Opt-in share only when used</td><td>Conveyancing, mortgage, survey, insurance routing after offer</td><td>Till — only rings when used</td></tr></tbody></table></div>
+<p>The badge is the adoption hook. Rails are where unit economics live. Agents do not pay to switch on; they only share revenue on deals Lockstep coordinated.</p>
+<hr>
+<h2 id="who-gets-what">Who gets what</h2>
+<div class='table-wrap'><table><thead><tr><th>Party</th><th>Value</th><th>Why they care</th></tr></thead><tbody><tr><td><strong>Buyer</strong></td><td>Full pack before offer; harder to gazump; less <strong>~£2.7k</strong> burned on dead deals</td><td>Actually moves in</td></tr><tr><td><strong>Seller</strong></td><td>Committed buyer; faster exchange; price reflects reality upfront</td><td>Actually moves out</td></tr><tr><td><strong>Agent</strong></td><td>Commission protected; wins listings with badge; share of rails when used</td><td>Pipeline that closes</td></tr><tr><td><strong>Partners</strong></td><td>Warm, instructed, committed files</td><td>Customer acquisition cost cheaper than paid search</td></tr><tr><td><strong>Lockstep</strong></td><td>Reservation fee + disclosed rails</td><td>Margin on orchestration</td></tr></tbody></table></div>
+<hr>
+<h2 id="who-pays-for-what">Who pays for what</h2>
+<div class='table-wrap'><table><thead><tr><th>When</th><th>Who pays</th><th>What</th></tr></thead><tbody><tr><td>Before listing</td><td><strong>Seller</strong></td><td>Pack and survey</td></tr><tr><td>On listing</td><td>—</td><td>Pack <strong>free</strong> to all viewers (public shareable link)</td></tr><tr><td>Before offer</td><td>—</td><td>Buyer reads; walks away for <strong>£0</strong> if no fit</td></tr><tr><td>After offer</td><td><strong>Buyer</strong></td><td>Reservation / certainty fee (~£500)</td></tr><tr><td>Through completion</td><td>Via partners</td><td>Conveyancing, mortgage, etc. — <strong>fees disclosed</strong></td></tr></tbody></table></div>
+<p><strong>Rule:</strong> Nobody pays for air. Seller buys speed and certainty. Buyer only pays once they have seen the file and want in.</p>
+<hr>
+<h2 id="end-to-end-flow">End-to-end flow</h2>
+<div class="mermaid-wrap"><pre class="mermaid">flowchart TD
+    subgraph listing [Before listing]
+        S1[Seller instructs agent]
+        S2[Seller pays for sale-ready pack]
+        S3[Title searches survey questionnaire assembled]
+        S4[Listed as Lockstep Ready with public pack link]
+    end
+    subgraph discovery [Buyer discovery]
+        B1[Buyer views listing or pack link]
+        B2[Buyer accesses full pack free]
+        B3{Interested?}
+        B3 --&gt;|No| B4[Walks away at zero cost]
+        B3 --&gt;|Yes| B5[Makes informed offer]
+    end
+    subgraph commitment [Commitment]
+        O1[Offer accepted]
+        O2[Both sign reservation agreement]
+        O3[Buyer pays certainty fee]
+    end
+    subgraph completion [Completion]
+        C1[Partners routed with disclosed fees]
+        C2[Transaction tracked on Lockstep]
+        C3[Exchange and completion]
+    end
+    S1 --&gt; S2 --&gt; S3 --&gt; S4
+    S4 --&gt; B1 --&gt; B2 --&gt; B3
+    B5 --&gt; O1 --&gt; O2 --&gt; O3
+    O3 --&gt; C1 --&gt; C2 --&gt; C3</pre></div>
+<hr>
+<h2 id="money-flow">Money flow</h2>
+<div class="mermaid-wrap"><pre class="mermaid">flowchart LR
+    Seller[Seller] --&gt;|&quot;Pack fee&quot;| Lockstep[Lockstep]
+    Buyer[Buyer] --&gt;|&quot;Reservation ~500&quot;| Lockstep
+    Conveyancer[Conveyancer] --&gt;|&quot;Referral ~250&quot;| Lockstep
+    Broker[Mortgage broker] --&gt;|&quot;Proc fee ~400&quot;| Lockstep
+    Surveyor[Surveyor] --&gt;|&quot;Referral ~100&quot;| Lockstep
+    Insurer[Insurer] --&gt;|&quot;Commission ~60&quot;| Lockstep
+    Lockstep --&gt;|&quot;30% rail revenue&quot;| Agent[Estate agent]</pre></div>
+<p>Detail: <a href="03-economics.md" target="_blank" rel="noopener">03-economics.md</a>.</p>
+<hr>
+<h2 id="information-vs-commitment-two-separate-payments">Information vs commitment (two separate payments)</h2>
+<div class="mermaid-wrap"><pre class="mermaid">flowchart TD
+    subgraph info [Information layer - seller funded]
+        I1[Seller pays ~800 to 1200 for pack]
+        I2[Survey searches title questionnaire]
+        I3[Shown FREE on listing and shareable link]
+    end
+    subgraph commit [Commitment layer - buyer funded]
+        C1[Buyer reviews pack]
+        C2[Buyer makes offer]
+        C3[Buyer pays ~500 reservation fee]
+        C4[Both bound by agreement]
+    end
+    I1 --&gt; I2 --&gt; I3
+    I3 --&gt; C1 --&gt; C2 --&gt; C3 --&gt; C4</pre></div>
+<p>Buyer never pays for information they reject. Bad survey results are priced in <strong>before</strong> offer, not discovered at month three.</p>
+<hr>
+<h2 id="reservation-agreement-valid-withdrawal">Reservation agreement — valid withdrawal</h2>
+<div class='table-wrap'><table><thead><tr><th>Valid (no penalty)</th><th>Invalid (penalty may apply)</th></tr></thead><tbody><tr><td>Failed mortgage despite reasonable efforts</td><td>Cold feet / change of mind</td></tr><tr><td>Serious survey or title issue not in pack</td><td>Gazumping / accepting higher offer</td></tr><tr><td>Chain collapse (agreement <strong>pauses</strong>)</td><td>Gazundering without cause</td></tr><tr><td>Seller misrepresentation in pack</td><td>Unreasonable delay</td></tr></tbody></table></div>
+<p>Enforcement: mutual commitment; adjudication; court recovery if needed (<a href="https://thenegotiator.co.uk/news/regulation-law-news/buyer-who-withdrew-unreasonably-from-property-sale-to-pay-35000/" target="_blank" rel="noopener">Gazeal £35k case</a>).</p>
+<hr>
+<h2 id="chain-handling-beachhead-enticement">Chain handling (beachhead + enticement)</h2>
+<p>Lockstep secures <strong>individual buyer–seller pairs</strong>. Full chain certainty needs multiple links on the platform — a later phase.</p>
+<p><strong>Beachhead (chain-free and short-chain):</strong> first-time buyers, new builds, probate and empty homes, sellers who will only accept chain-free buyers (<strong>15%</strong> of burned movers said they would — <a href="https://www.estateagenttoday.co.uk/breaking-news/2026/02/fall-throughs-cost-buyers-thousands-new-data/" target="_blank" rel="noopener">Barclays</a>).</p>
+<p><strong>Chained deals — pause-not-penalise:</strong> if an upstream link breaks, the reservation agreement <strong>automatically pauses</strong>. Neither buyer nor seller is punished for someone else&#x27;s failure. Their seatbelt still works even if the car in front crashes. We never market a full-chain guarantee.</p>
+<hr>
+<h2 id="partner-routing-default-path-nudge">Partner routing (default-path nudge)</h2>
+<p>When buyer or seller needs conveyancing, mortgage, or insurance:</p>
+<ol>
+<li>Lockstep presents a <strong>pre-selected panel partner</strong> alongside a transparent side-by-side comparison of alternatives and what Lockstep earns from each</li>
+<li>Consumer chooses — easy to accept the default, free to decline</li>
+<li>Partner receives a qualified, committed lead</li>
+<li>Agent sees status on the agent portal</li>
+</ol>
+<p>Think <strong>comparison site</strong>, not coercion: the insurer pays the comparison site when you sign up; here, the conveyancer pays Lockstep when the file completes.</p>
+<hr>
+<h2 id="avoiding-the-home-information-pack-failure">Avoiding the Home Information Pack failure</h2>
+<p>The mandatory Home Information Pack scheme (2007–2010) failed because buyers did not trust seller-funded condition information and conveyancers re-ordered searches.</p>
+<p>Lockstep differs on three mechanics (blind-assigned referee, not the home team&#x27;s friend):</p>
+<ul>
+<li><strong>Random surveyor panel assignment</strong> — seller cannot choose the surveyor</li>
+<li><strong>Buyer-assignable reliance</strong> on the report, with professional-indemnity cover</li>
+<li><strong>Transferable searches</strong> where lenders and panel conveyancers allow</li>
+</ul>
+<hr>
+<h2 id="brand-line">Brand line</h2>
+<p><strong>Fees on the table.</strong> Referrals disclosed at introduction. In a market built on quiet kickbacks, that is the wedge.</p>
+<hr>
+<h2 id="today-vs-lockstep">Today vs Lockstep</h2>
+<div class='table-wrap'><table><thead><tr><th>Step</th><th>Today</th><th>Lockstep</th></tr></thead><tbody><tr><td>Information</td><td>After offer; <strong>≤2%</strong> felt sufficient pre-offer</td><td><strong>Before offer</strong>; free via listing and shareable link</td></tr><tr><td>Survey</td><td>Buyer pays after offer; <strong>27.3%</strong> pull out after bad survey</td><td>Seller-funded; buyer-reliant; seen upfront</td></tr><tr><td>Commitment</td><td>Non-binding until exchange (~<strong>104 days</strong>)</td><td>Reservation agreement at offer acceptance</td></tr><tr><td>Coordination</td><td>Fragmented across six parties</td><td>Single tracker + routed partners</td></tr><tr><td>Fall-through</td><td><strong>~29.8%</strong> (2024)</td><td>Target <strong>&lt;10%</strong></td></tr></tbody></table></div>
+<hr>
+<p><strong>Why it matters:</strong> The product is not novel in concept — Scotland and Redbrik proved the sequence. Lockstep&#x27;s job is to make it national, agent-distributed, and trust-mechanically sound where Home Information Packs failed.</p></section>
+<section class="doc-section"><h1 id="economics">Economics</h1>
+<p><strong>TL;DR:</strong> Lockstep earns like a comparison site, not a software subscription — reservation fee from the buyer plus referral revenue from partners who pay for committed leads. Profitability is a volume and attach-rate game; agents share rail revenue as an insurance premium on commission already earned.</p>
+<blockquote>
+<p><strong>Model, not forecast.</strong> Attach rates are assumptions to validate in Phase 0. Referral ranges are sourced; editable inputs in <a href="../financials/unit-economics.csv" target="_blank" rel="noopener">../financials/unit-economics.csv</a>.</p>
+</blockquote>
+<hr>
+<h2 id="revenue-logic">Revenue logic</h2>
+<p>Think <strong>broker plus marketplace</strong>, not software seat fees:</p>
+<ul>
+<li><strong>Partners</strong> pay for committed files (estate agents already receive <strong>£250–£400</strong> for conveyancing introductions — <a href="https://www.legalservicesboard.org.uk/news_publications/latest_news/pdf/cra_impact_of_referral_arrangements_final_14may2010(STC" target="_blank" rel="noopener">Legal Services Board 2010</a>.pdf))</li>
+<li><strong>Buyer</strong> pays once for reservation — skin in the game (~<strong>£500</strong>, just under Redbrik&#x27;s proven <strong>£595</strong> anchor)</li>
+<li><strong>Seller</strong> funds the pack — that is the listing hook</li>
+</ul>
+<p>We disclose every pound. That is the brand, not a footnote.</p>
+<hr>
+<h2 id="who-pays-lockstep">Who pays Lockstep</h2>
+<div class='table-wrap'><table><thead><tr><th>Payer</th><th>What for</th><th>Typical amount</th><th>When</th></tr></thead><tbody><tr><td><strong>Buyer</strong></td><td>Reservation / certainty fee</td><td><strong>~£500</strong></td><td>At offer acceptance</td></tr><tr><td><strong>Conveyancer</strong></td><td>Buyer-side referral</td><td><strong>~£250</strong></td><td>On completion</td></tr><tr><td><strong>Conveyancer</strong></td><td>Seller-side referral</td><td><strong>~£250</strong></td><td>On completion</td></tr><tr><td><strong>Mortgage broker</strong></td><td>Procuration fee (from lender)</td><td><strong>~£300–£600</strong></td><td>On mortgage completion</td></tr><tr><td><strong>Surveyor</strong></td><td>Survey referral</td><td><strong>~£50–£150</strong></td><td>On survey instructed</td></tr><tr><td><strong>Insurer</strong></td><td>Policy commission</td><td><strong>~£30–£80</strong></td><td>On policy sale</td></tr><tr><td><strong>Seller</strong></td><td>Sale-ready pack</td><td><strong>~£800–£1,200</strong></td><td>Before listing</td></tr></tbody></table></div>
+<p>Seller pack fee may be bundled by the agent. Buyer reservation fee may partially cover search costs (Redbrik model).</p>
+<hr>
+<h2 id="who-does-not-pay-lockstep">Who does NOT pay Lockstep</h2>
+<div class='table-wrap'><table><thead><tr><th>Party</th><th>Relationship</th></tr></thead><tbody><tr><td><strong>Estate agent</strong></td><td>Does not pay — <strong>receives share of referral revenue</strong> as channel incentive</td></tr><tr><td><strong>Seller</strong> (commitment layer)</td><td>Does not pay reservation fee — buyer does</td></tr></tbody></table></div>
+<hr>
+<h2 id="agent-economics-commission-protection-not-referral-capture">Agent economics — commission protection, not referral capture</h2>
+<p>Roughly <strong>a third</strong> of agreed sales collapse. Each fall-through costs the agency <strong>~£4,123</strong> plus the lost <strong>£3,000–£6,000</strong> commission on a typical <strong>£300k</strong> sale.</p>
+<div class='table-wrap'><table><thead><tr><th>Item</th><th>Value</th></tr></thead><tbody><tr><td>Commission on <strong>£300k</strong> sale</td><td><strong>~£3,000–£6,000</strong></td></tr><tr><td>Cost per fall-through to agency</td><td><strong>~£4,123</strong></td></tr><tr><td>Conveyancing referral (today, agent keeps 100%)</td><td><strong>~£200–£400</strong></td></tr></tbody></table></div>
+<p><strong>Pitch to agents:</strong> Lockstep protects the commission you have already earned. The rail share is an <strong>insurance premium</strong> on that commission — not a tax on new income. One saved deal pays for months of sharing.</p>
+<div class='table-wrap'><table><thead><tr><th>Agent tier</th><th>Share of Lockstep referral revenue</th><th>Notes</th></tr></thead><tbody><tr><td>Standard partner</td><td><strong>30%</strong></td><td>Does not include buyer reservation fee</td></tr><tr><td><strong>Founding partner</strong> (first ~5 branches)</td><td><strong>40%</strong></td><td>First 24 months; co-naming and product input</td></tr></tbody></table></div>
+<p>Founding partners are the house band, not session musicians — they co-own the playbook, not just run it.</p>
+<hr>
+<h2 id="why-service-partners-pay">Why service partners pay</h2>
+<p>Partners pay because Lockstep is <strong>customer acquisition</strong> — like a comparison site handing an insurer a ready-to-buy customer.</p>
+<div class='table-wrap'><table><thead><tr><th>Partner</th><th>They earn per deal</th><th>Why referral fee to Lockstep is worth it</th></tr></thead><tbody><tr><td>Conveyancer</td><td><strong>£1,000–£2,000</strong> legal fee</td><td>Cheaper than paid search; customer already committed</td></tr><tr><td>Mortgage broker</td><td><strong>£300–£1,000+</strong> procuration fee</td><td>Buyer needs mortgage and has signed reservation</td></tr><tr><td>Surveyor</td><td><strong>£400–£1,500</strong></td><td>Steady pipeline; survey often already done</td></tr><tr><td>Insurer</td><td>Premium</td><td>Standard distribution commission</td></tr></tbody></table></div>
+<p>Files complete at higher rates than the open market (~<strong>70%</strong> baseline vs Lockstep target <strong>85%+</strong>), so partners waste less work on collapsed files.</p>
+<hr>
+<h2 id="multi-rail-attach-default-path-nudge-1a">Multi-rail attach — default-path nudge (1A)</h2>
+<p>Gazeal survived 16 years on primarily <strong>one rail</strong> (~£500 reservation) with <strong>6 staff</strong> and turnover <strong>&lt;£1M</strong> (<a href="https://open.endole.co.uk/insight/company/06772691-gazeal-limited" target="_blank" rel="noopener">Endole</a>). Lockstep needs <strong>multi-rail attach</strong> (~£538 referral revenue at base attach) — not reservation fee alone.</p>
+<p><strong>Mitigation:</strong> pre-selected panel partner shown alongside a transparent side-by-side comparison; easy to accept, free to decline. Protects attach rate without coercion or compliance risk. Pack structured for panel conveyancer efficiency.</p>
+<hr>
+<h2 id="transparent-cut-positioning">Transparent-cut positioning</h2>
+<p>Lockstep <strong>discloses every referral fee</strong> at point of introduction:</p>
+<blockquote>
+<p>&quot;If you use our recommended conveyancer, Lockstep receives £250. Here are three alternatives and what we earn from each.&quot;</p>
+</blockquote>
+<ul>
+<li><strong>Legally required</strong> under Consumer Protection Regulations and National Trading Standards Estate and Letting Agency Team guidance</li>
+<li><strong>Brand differentiator</strong> — honesty in a market defined by hidden kickbacks</li>
+</ul>
+<hr>
+<h2 id="per-completed-deal-base-case-illustrative">Per completed deal — base case (illustrative)</h2>
+<h3 id="revenue-gross">Revenue (gross)</h3>
+<div class='table-wrap'><table><thead><tr><th>Line</th><th>Full value</th><th>Attach rate</th><th>Weighted revenue</th></tr></thead><tbody><tr><td>Reservation fee (buyer)</td><td>£500</td><td>100%</td><td><strong>£500</strong></td></tr><tr><td>Conveyancing referral (buyer)</td><td>£250</td><td>70%</td><td><strong>£175</strong></td></tr><tr><td>Conveyancing referral (seller)</td><td>£250</td><td>40%</td><td><strong>£100</strong></td></tr><tr><td>Mortgage referral</td><td>£400</td><td>50%</td><td><strong>£200</strong></td></tr><tr><td>Survey referral</td><td>£100</td><td>45%</td><td><strong>£45</strong></td></tr><tr><td>Insurance commission</td><td>£60</td><td>30%</td><td><strong>£18</strong></td></tr><tr><td><strong>Total gross revenue</strong></td><td></td><td></td><td><strong>£1,038</strong></td></tr></tbody></table></div>
+<h3 id="direct-costs">Direct costs</h3>
+<div class='table-wrap'><table><thead><tr><th>Line</th><th>Amount</th></tr></thead><tbody><tr><td>Searches + pack assembly</td><td>£200</td></tr><tr><td>Identity verification / anti-money-laundering</td><td>£20</td></tr><tr><td>Payment processing</td><td>£15</td></tr><tr><td>Agent share (30% of <strong>£538</strong> rail revenue)</td><td>£161</td></tr><tr><td><strong>Total direct costs</strong></td><td><strong>£396</strong></td></tr></tbody></table></div>
+<h3 id="contribution-margin">Contribution margin</h3>
+<p><strong>£1,038 − £396 = £642</strong> (rounded <strong>~£677</strong> where reservation net differs slightly). This is contribution per completed deal before operating costs.</p>
+<div class="mermaid-wrap"><pre class="mermaid">flowchart TB
+    subgraph revenue [Gross revenue per deal base case]
+        R1[Reservation 500]
+        R2[Conveyancing buyer 175]
+        R3[Conveyancing seller 100]
+        R4[Mortgage 200]
+        R5[Survey 45]
+        R6[Insurance 18]
+    end
+    subgraph costs [Direct costs]
+        C1[Searches 200]
+        C2[AML 20]
+        C3[Payment 15]
+        C4[Agent share 161]
+    end
+    revenue --&gt; costs
+    costs --&gt; Profit[Contribution ~677]</pre></div>
+<p>Chart: <code>../charts/06-revenue-stack-base.png</code></p>
+<hr>
+<h2 id="scenarios">Scenarios</h2>
+<div class='table-wrap'><table><thead><tr><th>Scenario</th><th>Attach assumptions</th><th><strong>Contribution</strong></th></tr></thead><tbody><tr><td><strong>Conservative</strong></td><td>Lower attach (50% conv buyer, 30% mortgage)</td><td><strong>~£487</strong></td></tr><tr><td><strong>Base</strong></td><td>As table above</td><td><strong>~£642–677</strong></td></tr><tr><td><strong>Optimistic</strong></td><td>Higher attach (85% conv buyer, 70% mortgage)</td><td><strong>~£859</strong></td></tr></tbody></table></div>
+<hr>
+<h2 id="started-vs-completed">Started vs completed</h2>
+<div class='table-wrap'><table><thead><tr><th>Parameter</th><th>Value</th></tr></thead><tbody><tr><td>Market baseline completion</td><td>~70%</td></tr><tr><td>Lockstep target completion</td><td><strong>85%</strong></td></tr><tr><td>Partial recovery on failed deals</td><td>~£250 avg</td></tr></tbody></table></div>
+<p><strong>Blended contribution per started deal (base):</strong> (£677 × 0.85) + (£250 × 0.15) ≈ <strong>£612</strong></p>
+<hr>
+<h2 id="sensitivity">Sensitivity</h2>
+<div class='table-wrap'><table><thead><tr><th>Variable</th><th>Downside</th><th>Upside</th></tr></thead><tbody><tr><td>Mortgage attach 50% → 20%</td><td>−£120/deal</td><td>50% → 70%: +£80/deal</td></tr><tr><td>Agent share 30% → 50%</td><td>−£108/deal</td><td>30% → 20%: +£54/deal</td></tr><tr><td>Completion rate 85% → 70%</td><td>Blended −~£90/started</td><td>85% → 92%: +£50/started</td></tr><tr><td>Consumer customer acquisition cost</td><td>Forced business-to-consumer ads (~£50/click)</td><td>Agent business-to-business-to-consumer: ~£0</td></tr></tbody></table></div>
+<p><strong>Critical insight:</strong> Profitability is a <strong>volume plus attach rate</strong> game, not a pricing game.</p>
+<hr>
+<h2 id="what-lockstep-is-not">What Lockstep is NOT</h2>
+<div class='table-wrap'><table><thead><tr><th>Model</th><th>Why not</th></tr></thead><tbody><tr><td>Hidden kickbacks</td><td>Illegal to conceal; brand risk</td></tr><tr><td>Pure flat-fee zero referrals</td><td>Lower margin; &quot;too cheap&quot; distrust</td></tr><tr><td>Employed conveyancers</td><td>Purplebricks margin collapse</td></tr><tr><td>Instant buyer / buy houses</td><td>Upstix <strong>-£7.25M</strong> pre-tax</td></tr></tbody></table></div>
+<hr>
+<h2 id="regulatory-posture-summary">Regulatory posture (summary)</h2>
+<p>Lockstep operates as introducer and orchestrator: referral fees disclosed; mortgage and insurance via Financial Conduct Authority appointed representative or introducer-only; does not conduct reserved legal activities; anti-money-laundering obligations when handling identity and payments.</p>
+<p>Detail: <a href="04-competition-and-risk.md" target="_blank" rel="noopener">04-competition-and-risk.md</a>.</p>
+<hr>
+<p><strong>Why it matters:</strong> Unit economics only work with multi-rail attach and agent channel distribution at near-zero customer acquisition cost. Phase 0 must measure real attach rates before we scale build or spend.</p>
+<figure class="chart"><img src="../charts/06-revenue-stack-base.png" alt="Revenue per deal — base case (model)" loading="lazy"><figcaption>Revenue per deal — base case (model)</figcaption></figure></section>
+<section class="doc-section"><h1 id="competition-and-risk">Competition and Risk</h1>
+<p><strong>TL;DR:</strong> Everyone owns a slice; nobody owns the full stack nationally. Lockstep&#x27;s gap is commitment plus assignable pack plus multi-rail monetisation plus fees on the table — sold through agents. Redbrik proved the model regionally but left the national platform lane open.</p>
+<hr>
+<h2 id="competitive-landscape">Competitive landscape</h2>
+<p>Everyone owns a <strong>slice</strong>. Nobody owns the <strong>stack</strong> nationally.</p>
+<div class='table-wrap'><table><thead><tr><th>Capability</th><th>Gazeal</th><th>Moverly</th><th>Redbrik</th><th>hop</th><th>Habito</th><th><strong>Lockstep</strong></th></tr></thead><tbody><tr><td>Upfront info pack</td><td>Partial</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Partial</td><td><strong>Yes</strong></td></tr><tr><td>Assignable survey</td><td>No</td><td>Partial</td><td>Yes</td><td>Partial</td><td>Partner</td><td><strong>Yes</strong></td></tr><tr><td>Reservation agreement</td><td><strong>Yes</strong></td><td>No</td><td>Yes</td><td>No</td><td>No</td><td><strong>Yes</strong></td></tr><tr><td>Multi-rail referrals</td><td>No</td><td>Partial</td><td>Partial</td><td>Partial</td><td>Yes</td><td><strong>Yes</strong></td></tr><tr><td>Transparent disclosure</td><td>Partial</td><td>N/A</td><td>Partial</td><td>N/A</td><td>Partial</td><td><strong>Core brand</strong></td></tr><tr><td>Agent channel B2B2C</td><td>Yes</td><td>Yes</td><td>Own agent</td><td>B2B</td><td>B2C</td><td><strong>Yes</strong></td></tr><tr><td>National platform</td><td>Yes (small)</td><td>Growing</td><td>No</td><td>B2B</td><td>Yes</td><td><strong>Target</strong></td></tr></tbody></table></div>
+<p>Chart: <code>../charts/08-competitor-scale.png</code></p>
+<hr>
+<h2 id="redbrik-securemove-proven-model-no-national-platform">Redbrik SecureMove — proven model, no national platform</h2>
+<p><a href="https://www.redbrik.co.uk/securemove/" target="_blank" rel="noopener">Redbrik SecureMove</a> is the strongest regional proof point — and the clearest explanation of why the national lane is still open.</p>
+<div class='table-wrap'><table><thead><tr><th>Signal</th><th>Detail</th></tr></thead><tbody><tr><td><strong>Scope</strong></td><td>Proprietary to Redbrik — Sheffield and Chesterfield, four branches, 80+ staff</td></tr><tr><td><strong>Mechanics</strong></td><td>Seller-funded buyer information pack and searches before listing; buyer pays <strong>£595</strong> reservation fee; mandatory on <strong>every</strong> Redbrik listing</td></tr><tr><td><strong>Results</strong></td><td>Fall-through fell from ~50% (post-pandemic peak) to <strong>~8%</strong> steady-state; like-for-like gap vs national ~30% is still excellent</td></tr><tr><td><strong>Growth</strong></td><td>Regional consolidation (e.g. Bothams acquisition) — not software platformisation</td></tr><tr><td><strong>National play</strong></td><td>Urges other agents to adopt the *approach*; invites contact — but no white-label, franchise, or software product found</td></tr></tbody></table></div>
+<p><strong>Why ~8% works for them but is hard to bottle:</strong> SecureMove is mandatory because Redbrik owns the branch. Lockstep must recreate that enforcement contractually across independent agents. Redbrik chose to be a better estate agent, not a platform company — <strong>that is Lockstep&#x27;s opening</strong>.</p>
+<p>Lockstep&#x27;s <strong>£500</strong> reservation fee sits deliberately just under Redbrik&#x27;s proven <strong>£595</strong> anchor — comfortable enough for peace of mind, not so high it reads as ransom.</p>
+<hr>
+<h2 id="the-precedent-graveyard">The precedent graveyard</h2>
+<h3 id="home-information-packs-20072010">Home Information Packs (2007–2010)</h3>
+<p>Mandatory seller-funded packs before listing. Failed because <strong>&lt;1 in 6</strong> trusted seller condition information; buyer&#x27;s conveyancer re-ordered searches (Council of Mortgage Lenders liability); no commitment layer.</p>
+<p><strong>Lesson:</strong> Trust, liability, and commitment — not information alone. Lockstep mitigates via independence mechanics (see risk register).</p>
+<h3 id="online-estate-agents-emoov-tepilo-hatched">Online estate agents (Emoov, Tepilo, Hatched)</h3>
+<p><strong>~£150M</strong> spent for <strong>~7%</strong> share; consumer distrust of &quot;too cheap.&quot;</p>
+<p><strong>Lesson:</strong> Do not disintermediate agents; do not compete on cheap.</p>
+<h3 id="purplebricks">Purplebricks</h3>
+<p>Sold for <strong>£1</strong>; <strong>£37.8M</strong> pre-tax loss; gross margin <strong>63.5% → 0.1%</strong> after employed staff model.</p>
+<p><strong>Lesson:</strong> Fixed-cost professionals plus variable transaction volume equals structural failure.</p>
+<h3 id="upstix-instant-buyer">Upstix (instant buyer)</h3>
+<p><strong>£17.8M</strong> turnover; <strong>-£7.25M</strong> pre-tax; negative gross profit.</p>
+<p><strong>Lesson:</strong> Never buy houses.</p>
+<hr>
+<h2 id="live-competitors-by-layer">Live competitors by layer</h2>
+<div class='table-wrap'><table><thead><tr><th>Layer</th><th>Players</th><th>Gap Lockstep fills</th></tr></thead><tbody><tr><td>Certainty / reservation</td><td>Gazeal, Redbrik</td><td>Gazeal: single-rail, tiny scale. Redbrik: regional only</td></tr><tr><td>Data / sale-ready packs</td><td>Moverly, hop</td><td>Data only; no certainty; may be commoditised by regulation</td></tr><tr><td>Coordination</td><td>Habito Plus, Nutlip</td><td>Mortgage-led or pre-launch; no reservation product</td></tr><tr><td>Guarantee</td><td>ClozeSure</td><td>Capital-intensive; post-exchange only</td></tr></tbody></table></div>
+<hr>
+<h2 id="locksteps-defensible-gap">Lockstep&#x27;s defensible gap</h2>
+<ol>
+<li><strong>Combine</strong> certainty (Gazeal) + sale-ready data (Moverly/hop) + multi-rail monetisation (Habito model)</li>
+<li><strong>Transparent-cut</strong> positioning vs hidden kickbacks</li>
+<li><strong>Agent distribution</strong> — not consumer customer acquisition cost</li>
+<li><strong>Interoperate</strong> with Property Data Trust Framework / Digital Sale Ready standard rather than fight it</li>
+<li><strong>Beachhead chain-free</strong>; pause-not-penalise for chained deals</li>
+</ol>
+<hr>
+<h2 id="strategic-positioning-fees-on-the-table">Strategic positioning: fees on the table</h2>
+<div class='table-wrap'><table><thead><tr><th>Position</th><th>Verdict</th></tr></thead><tbody><tr><td>Hidden cut</td><td><strong>Reject</strong> — illegal under Consumer Protection Regulations</td></tr><tr><td><strong>Transparent cut</strong></td><td><strong>Adopt</strong> — legal, differentiated, profitable</td></tr><tr><td>Pure flat-fee zero referrals</td><td>Lower margin; &quot;too cheap&quot; distrust</td></tr></tbody></table></div>
+<hr>
+<h2 id="risk-register">Risk register</h2>
+<h3 id="1-adverse-selection-reframe-as-feature-2a">1. Adverse selection — reframe as feature (2A)</h3>
+<p><strong>Risk:</strong> Sellers with defects avoid Lockstep because upfront survey exposes <strong>£20k+</strong> work required.</p>
+<p><strong>Mitigation:</strong> Position as <strong>&quot;priced right, sells faster&quot;</strong> and publish completion statistics. A home that prints its hygiene rating wins trust; defect-hiding sellers self-select out by design. Scotland operates this way at <strong>~9%</strong> fall-through. Target agents tired of fall-throughs on mispriced stock.</p>
+<p><strong>Accept:</strong> Transparency removes winnings from opacity — that is the product working.</p>
+<hr>
+<h3 id="2-chain-partial-certainty-beachhead-plus-pause-not-penalise-c1">2. Chain partial certainty — beachhead plus pause-not-penalise (C1)</h3>
+<p><strong>Risk:</strong> Lockstep secures one link; upstream chain collapse still kills the deal.</p>
+<p><strong>Mitigation:</strong> Never promise full-chain guarantee. <strong>Beachhead:</strong> chain-free and short-chain (first-time buyers, new build, probate). <strong>Chained deals:</strong> reservation agreement <strong>automatically pauses</strong> if an upstream link breaks — neither party punished for someone else&#x27;s failure. Phase 4 adds chain visibility when density allows.</p>
+<p>Source: <strong>46%</strong> of chain buyers experienced delays or fall-through (<a href="https://www.estateagenttoday.co.uk/breaking-news/2026/02/fall-throughs-cost-buyers-thousands-new-data/" target="_blank" rel="noopener">Barclays</a>).</p>
+<hr>
+<h3 id="3-agent-adoption-failure">3. Agent adoption failure</h3>
+<p><strong>Risk:</strong> Agents see Lockstep as a threat to referral income.</p>
+<p><strong>Mitigation:</strong> Commission-protection framing (see <a href="03-economics.md" target="_blank" rel="noopener">03-economics.md</a>); founding-partner programme; free badge with opt-in rails; zero cost to switch on. Detail: <a href="05-go-to-market.md" target="_blank" rel="noopener">05-go-to-market.md</a>.</p>
+<hr>
+<h3 id="4-low-attach-rates-default-path-nudge-1a">4. Low attach rates — default-path nudge (1A)</h3>
+<p><strong>Risk:</strong> Buyers use own solicitor or broker; only reservation fee attaches (~£500/deal).</p>
+<p><strong>Mitigation:</strong> Pre-selected panel partner with transparent side-by-side comparison; pack structured for panel conveyancer efficiency; lender-preferred broker relationships. Easy to accept, free to decline.</p>
+<hr>
+<h3 id="5-regulatory-commoditisation">5. Regulatory commoditisation</h3>
+<p><strong>Risk:</strong> Government mandates upfront packs; data layer commoditised.</p>
+<p><strong>Mitigation:</strong> Interoperate with industry data standards; own reservation and coordination moat; first-mover agent relationships.</p>
+<hr>
+<h3 id="6-competitor-replication">6. Competitor replication</h3>
+<p><strong>Risk:</strong> Redbrik scales nationally; Gazeal raises funding; Rightmove builds in-house.</p>
+<p><strong>Mitigation:</strong> Speed; multi-rail economics; transparent brand; agent network density.</p>
+<hr>
+<h3 id="7-survey-trust-independence-mechanics-5a">7. Survey trust — independence mechanics (5A)</h3>
+<p><strong>Risk:</strong> Buyers do not trust seller-funded survey (Home Information Pack repeat).</p>
+<p><strong>Mitigation:</strong> <strong>Random panel assignment</strong> (no seller choice); <strong>buyer-assignable reliance</strong> with professional-indemnity cover; buyer top-up to full structural survey if desired. Blind-assigned referee, not the home team&#x27;s friend.</p>
+<p>Source: <strong>&lt;1 in 6</strong> trusted Home Information Pack condition info (<a href="https://www.gov.uk/government/news/lack-of-trust-condemned-hips-to-failure" target="_blank" rel="noopener">Gov.uk</a>).</p>
+<hr>
+<h3 id="8-search-duplication">8. Search duplication</h3>
+<p><strong>Risk:</strong> Buyer&#x27;s conveyancer re-orders searches; seller&#x27;s pack wasted.</p>
+<p><strong>Mitigation:</strong> Transferable searches (Redbrik model); lender and conveyancer panel pre-acceptance; freshness policy (3–6 month validity).</p>
+<hr>
+<h3 id="9-guarantee-liability">9. Guarantee liability</h3>
+<p><strong>Risk:</strong> Balance-sheet exposure if offering payout guarantees.</p>
+<p><strong>Mitigation:</strong> Reinsure or partner underwriter; do not self-fund.</p>
+<hr>
+<h2 id="regulatory-posture">Regulatory posture</h2>
+<div class='table-wrap'><table><thead><tr><th>Activity</th><th>Approach</th></tr></thead><tbody><tr><td>Conveyancing</td><td>Refer to Solicitors Regulation Authority / Council for Licensed Conveyancers panel</td></tr><tr><td>Surveys</td><td>Refer to Royal Institution of Chartered Surveyors panel — random assignment</td></tr><tr><td>Mortgage</td><td>Introducer or Financial Conduct Authority appointed representative</td></tr><tr><td>Insurance</td><td>Financial Conduct Authority appointed representative</td></tr><tr><td>Reservation agreements</td><td>Legal templates; adjudication process</td></tr><tr><td>Data</td><td>UK General Data Protection Regulation; anti-money-laundering when handling identity and payments</td></tr><tr><td>Referral fees</td><td>Disclosed in writing per National Trading Standards Estate and Letting Agency Team</td></tr></tbody></table></div>
+<p><strong>Do not:</strong> Become a law firm, surveying firm, or instant buyer.</p>
+<hr>
+<h2 id="honest-outcomes">Honest outcomes</h2>
+<div class='table-wrap'><table><thead><tr><th>Scenario</th><th>Outcome</th></tr></thead><tbody><tr><td>Buyer sees pack, does not offer</td><td><strong>Buyer pays nothing</strong></td></tr><tr><td>Buyer offers, signs reservation, completes</td><td><strong>Both get certainty</strong></td></tr><tr><td>Buyer offers, valid withdrawal (survey issue)</td><td>Penalty waived per terms</td></tr><tr><td>Seller with defects avoids Lockstep</td><td><strong>Self-selects out</strong> — by design</td></tr><tr><td>Upstream chain breaks (chained deal)</td><td>Agreement <strong>pauses</strong> — no penalty</td></tr></tbody></table></div>
+<hr>
+<p><strong>Why it matters:</strong> Competition proves demand and mechanics; risks prove what must be designed in from day one. Lockstep wins if it moves faster on the national platform lane Redbrik chose not to take.</p>
+<figure class="chart"><img src="../charts/08-competitor-scale.png" alt="Who&#x27;s actually at scale" loading="lazy"><figcaption>Who&#x27;s actually at scale</figcaption></figure></section>
+<section class="doc-section"><h1 id="go-to-market">Go-to-Market</h1>
+<p><strong>TL;DR:</strong> Estate agents are the distribution channel — not the customer. Lockstep wins listings with a free badge, protects commission with certainty, and shares rail revenue as an insurance premium. One platform, two doors, one public shop window.</p>
+<hr>
+<h2 id="channel-strategy-agents-are-the-application-programming-interface">Channel strategy: agents are the application programming interface</h2>
+<p>No paid social. No billboards. <strong>Agents are distribution.</strong></p>
+<p>Emoov burned ~<strong>£150M</strong> chasing consumers at ~<strong>£50/click</strong> for ~<strong>7%</strong> share. We use <strong>business-to-business-to-consumer</strong> distribution: near-zero customer acquisition cost via the agent relationship.</p>
+<div class='table-wrap'><table><thead><tr><th>Channel</th><th>Role</th></tr></thead><tbody><tr><td><strong>Estate agent</strong></td><td>Brings buyer and seller; offers Lockstep as listing differentiator</td></tr><tr><td><strong>Lockstep</strong></td><td>Orchestrates pack, reservation, partner routing</td></tr><tr><td><strong>Service partners</strong></td><td>Deliver conveyancing, mortgage, survey, insurance</td></tr></tbody></table></div>
+<hr>
+<h2 id="agent-adoption-three-tactics-one-story">Agent adoption — three tactics, one story</h2>
+<p>Agents adopt because Lockstep <strong>protects money they have already earned</strong>, lets them <strong>co-own the product early</strong>, and costs <strong>nothing to switch on</strong>.</p>
+<h3 id="1-commission-protection-not-referral-capture">1. Commission protection, not referral capture</h3>
+<p>Roughly <strong>a third</strong> of agreed sales collapse. Each costs the agency <strong>~£4,123</strong> plus lost <strong>£3,000–£6,000</strong> commission.</p>
+<p><strong>Pitch:</strong> *&quot;Your commission dies when the deal dies. Lockstep keeps the file alive. The rail share is an insurance premium on commission you&#x27;ve already earned — not a tax on new income. One saved deal pays for months of sharing.&quot;*</p>
+<p>The agent&#x27;s existing conveyancing referral (<strong>£200–£400</strong>, kept 100% on non-Lockstep deals) is untouched until they opt into rails on a Lockstep-coordinated file.</p>
+<h3 id="2-founding-partner-programme">2. Founding-partner programme</h3>
+<p>The first <strong>~5 branches</strong> are co-authors, not customers — the house band, not session musicians.</p>
+<div class='table-wrap'><table><thead><tr><th>Benefit</th><th>Detail</th></tr></thead><tbody><tr><td>Enhanced rail share</td><td><strong>40%</strong> vs standard <strong>30%</strong> for first 24 months</td></tr><tr><td>Postcode exclusivity</td><td>12 months in their cluster</td></tr><tr><td>Co-naming</td><td>&quot;Powered with [Agent Name]&quot; on materials</td></tr><tr><td>Product input</td><td>Reservation template, pack contents, partner panel</td></tr></tbody></table></div>
+<p>Signed during Phase 0. Output: a playbook other agents will want to copy.</p>
+<h3 id="3-two-layers-shop-window-vs-till">3. Two layers — shop window vs till</h3>
+<div class='table-wrap'><table><thead><tr><th>Layer</th><th>Agent cost</th><th>Agent benefit</th></tr></thead><tbody><tr><td><strong>Lockstep Ready badge</strong></td><td><strong>£0</strong></td><td>Wins instructions at valuation; differentiates on Rightmove and similar portals</td></tr><tr><td><strong>Completion rails</strong></td><td>Share only when Lockstep coordinated the deal</td><td>Extra income on files that actually complete</td></tr></tbody></table></div>
+<p>Seller pays for the pack (or agent bundles into marketing). Agent promotes certainty. Rails attach after offer — no forced panel, no day-one workflow overhaul.</p>
+<hr>
+<h2 id="product-surfaces-one-platform-two-doors-one-shop-window">Product surfaces — one platform, two doors, one shop window</h2>
+<div class='table-wrap'><table><thead><tr><th>Surface</th><th>Who</th><th>When</th><th>Purpose</th></tr></thead><tbody><tr><td><strong>Public shareable pack link</strong></td><td>Buyer (anonymous → registered)</td><td>At listing</td><td>Top-of-funnel acquisition; near-zero customer acquisition cost; pulls buyers into portal</td></tr><tr><td><strong>Buyer portal</strong></td><td>Buyer</td><td>After interest</td><td>Read pack, make informed offer, sign reservation, track completion</td></tr><tr><td><strong>Agent portal</strong></td><td>Agent</td><td>From Phase 1–2</td><td>Onboard seller, trigger pack, track deal status, see economics</td></tr></tbody></table></div>
+<p><strong>Build approach:</strong> one shared role-based platform underneath — single codebase, two role-based experiences. Lower build cost protects contribution margin. Phase 1 ships buyer portal and shareable links; Phase 2 adds agent self-serve.</p>
+<p>This is the higher-yield combination: public links widen the funnel; portals convert and retain; agents get a dashboard without funding two separate products.</p>
+<hr>
+<h2 id="ideal-customer-profile-beachhead">Ideal customer profile (beachhead)</h2>
+<div class='table-wrap'><table><thead><tr><th>Segment</th><th>Why first</th></tr></thead><tbody><tr><td><strong>Independent agents</strong> (1–5 branches)</td><td>Faster decisions; frustrated by fall-throughs</td></tr><tr><td><strong>Chain-free and short-chain listings</strong></td><td>First-time buyers, new build, probate, seller prefers chain-free</td></tr><tr><td><strong>Regional focus</strong></td><td>Density beats national thin spread</td></tr></tbody></table></div>
+<p>Avoid initially: large corporate groups (long procurement), complex multi-link chains, luxury or bespoke stock.</p>
+<p><strong>Chain note:</strong> we do not avoid chains forever — we <strong>prioritise chain-free</strong> as beachhead. Chained buyers and sellers get <strong>pause-not-penalise</strong> (reservation agreement pauses if upstream link breaks; no penalty for innocent party). Never market a full-chain guarantee.</p>
+<hr>
+<h2 id="phased-roadmap">Phased roadmap</h2>
+<h3 id="phase-0-validate-without-code-weeks-18">Phase 0 — Validate without code (Weeks 1–8)</h3>
+<p><strong>Goal:</strong> Prove economics and completion rate with one founding-partner branch.</p>
+<div class='table-wrap'><table><thead><tr><th>Activity</th><th>Output</th></tr></thead><tbody><tr><td>Sign <strong>1 founding-partner</strong> branch</td><td>Handshake with enhanced terms</td></tr><tr><td>Manually build <strong>3–5 sale-ready packs</strong></td><td>Process map; cost actuals</td></tr><tr><td>Run <strong>reservation agreement</strong> (solicitor template + DocuSign)</td><td>Signed deals</td></tr><tr><td>Route to <strong>referral partners</strong> manually</td><td>Attach rate data</td></tr><tr><td><strong>Measure:</strong> completion rate, time to exchange, revenue per deal, attach by rail</td><td>Go/no-go for Phase 1</td></tr></tbody></table></div>
+<p><strong>Decision gate:</strong> Agent wants to continue; completion <strong>&gt;70%</strong>; rails attach at base-case rates.</p>
+<h3 id="phase-1-concierge-minimum-viable-product-months-25">Phase 1 — Concierge minimum viable product (Months 2–5)</h3>
+<p><strong>Goal:</strong> Buyer portal + shareable pack links; 20–40 transactions.</p>
+<div class='table-wrap'><table><thead><tr><th>Build</th><th>Partner / manual</th></tr></thead><tbody><tr><td>Public shareable pack links</td><td>Conveyancing panel</td></tr><tr><td>Buyer portal (pack viewer, reservation e-sign)</td><td>Mortgage broker</td></tr><tr><td>Internal ops dashboard</td><td>Surveyor panel</td></tr><tr><td>Identity / anti-money-laundering integration</td><td>Insurer</td></tr></tbody></table></div>
+<p>Target: <strong>£612</strong> blended contribution validated on real deals.</p>
+<h3 id="phase-2-agent-productise-months-510">Phase 2 — Agent productise (Months 5–10)</h3>
+<p><strong>Goal:</strong> Agent portal; repeatable onboarding in one region.</p>
+<div class='table-wrap'><table><thead><tr><th>Deliverable</th></tr></thead><tbody><tr><td>Agent portal (onboard seller, track deal, see economics)</td></tr><tr><td>Referral routing + <strong>disclosure generator</strong></td></tr><tr><td>Customer relationship management integration (Reapit / Alto) if needed</td></tr><tr><td>Automated transaction state machine</td></tr></tbody></table></div>
+<h3 id="phase-3-scale-channel-months-1024">Phase 3 — Scale channel (Months 10–24)</h3>
+<div class='table-wrap'><table><thead><tr><th>Deliverable</th></tr></thead><tbody><tr><td>Agent training + playbook (from founding partners)</td></tr><tr><td>Property Data Trust Framework / Digital Sale Ready compliance</td></tr><tr><td>Attach rate optimisation (default-path nudge)</td></tr><tr><td><strong>~100 branches</strong> (~400 deals/month)</td></tr></tbody></table></div>
+<h3 id="phase-4-full-rail-24-months">Phase 4 — Full rail (24+ months)</h3>
+<div class='table-wrap'><table><thead><tr><th>Deliverable</th></tr></thead><tbody><tr><td>Multi-link chain visibility</td></tr><tr><td>Reinsured fall-through guarantee (premium tier)</td></tr><tr><td>&quot;Scotland for England&quot; transaction operating system</td></tr></tbody></table></div>
+<hr>
+<h2 id="60-day-first-steps">60-day first steps</h2>
+<h3 id="commercial">Commercial</h3>
+<ul class='checklist'>
+<li><input type='checkbox' disabled > One-sentence agent value prop (commission protection)</li>
+<li><input type='checkbox' disabled > Identify <strong>3–5 independent agents</strong>; pitch founding partnership</li>
+<li><input type='checkbox' disabled > Sign <strong>1 founding partner</strong> with enhanced terms</li>
+<li><input type='checkbox' disabled > Hand-build <strong>2–3 sale-ready packs</strong> on real listings</li>
+<li><input type='checkbox' disabled > Commission reservation agreement template</li>
+<li><input type='checkbox' disabled > Sign partners: <strong>1 conveyancer, 1 broker, 1 surveyor, 1 insurer</strong></li>
+<li><input type='checkbox' disabled > Run <strong>1 deal end-to-end manually</strong>; record attach rates by rail</li>
+<li><input type='checkbox' disabled > Document completion rate vs local baseline</li>
+</ul>
+<h3 id="legal-regulatory">Legal / regulatory</h3>
+<ul class='checklist'>
+<li><input type='checkbox' disabled > Incorporate Lockstep Ltd</li>
+<li><input type='checkbox' disabled > Professional indemnity insurance quotes</li>
+<li><input type='checkbox' disabled > Regulatory solicitor: confirm introducer posture</li>
+<li><input type='checkbox' disabled > Scope Financial Conduct Authority appointed representative (insurance/mortgage)</li>
+<li><input type='checkbox' disabled > Referral disclosure template (Consumer Protection Regulations compliant)</li>
+<li><input type='checkbox' disabled > Anti-money-laundering partner (Credas / Thirdfort)</li>
+</ul>
+<h3 id="product-only-after-phase-0-gate">Product (only after Phase 0 gate)</h3>
+<ul class='checklist'>
+<li><input type='checkbox' disabled > Transaction state machine (offer → pack → reservation → exchange → completion)</li>
+<li><input type='checkbox' disabled > Build-vs-integrate per module</li>
+<li><input type='checkbox' disabled > Instrument: completion rate, attach rate, time-to-exchange</li>
+</ul>
+<hr>
+<h2 id="key-metrics">Key metrics</h2>
+<div class='table-wrap'><table><thead><tr><th>Metric</th><th>Target</th><th>Market baseline</th></tr></thead><tbody><tr><td>Fall-through rate</td><td><strong>&lt;10%</strong></td><td><strong>~29.8%</strong> (2024)</td></tr><tr><td>Time to exchange</td><td><strong>&lt;60 days</strong></td><td><strong>~104 days</strong> (2025)</td></tr><tr><td>Mortgage attach</td><td><strong>&gt;50%</strong></td><td>N/A</td></tr><tr><td>Conveyancing attach (buyer)</td><td><strong>&gt;70%</strong></td><td>N/A</td></tr><tr><td>Agent net promoter score / retention</td><td>Positive</td><td>N/A</td></tr><tr><td>Contribution per completed deal</td><td><strong>&gt;£600</strong></td><td>N/A</td></tr></tbody></table></div>
+<hr>
+<h2 id="what-not-to-do">What not to do</h2>
+<div class='table-wrap'><table><thead><tr><th>Anti-pattern</th><th>Precedent</th></tr></thead><tbody><tr><td>Consumer paid search / social ads</td><td>Emoov</td></tr><tr><td>Compete on being cheapest</td><td>Emoov / Purplebricks distrust</td></tr><tr><td>Employ conveyancers day one</td><td>Purplebricks margin collapse</td></tr><tr><td>National launch before regional density</td><td>Chicken-and-egg</td></tr><tr><td>Build platform before 1 manual deal</td><td>Waste</td></tr></tbody></table></div>
+<hr>
+<p><strong>Why it matters:</strong> Go-to-market is the business. Technology is Phase 1+. If founding partners do not want to continue after Phase 0, no portal or pitch deck fixes that.</p></section>
+<section class="doc-section"><h1 id="sources-and-glossary">Sources and Glossary</h1>
+<p><strong>TL;DR:</strong> Every market statistic maps to a primary source below. Financial model assumptions are illustrative — see <a href="03-economics.md" target="_blank" rel="noopener">03-economics.md</a> and <a href="../financials/unit-economics.csv" target="_blank" rel="noopener">../financials/unit-economics.csv</a>.</p>
+<hr>
+<h2 id="sources-reference">Sources reference</h2>
+<h3 id="fall-through-and-economic-cost">Fall-through and economic cost</h3>
+<div class='table-wrap'><table><thead><tr><th>Figure</th><th>Source</th></tr></thead><tbody><tr><td>29.8% fall-through rate (2024)</td><td><a href="https://thenegotiator.co.uk/news/uk-housing-market-news/report-uk-worst-property-transaction-fall-through-rates/" target="_blank" rel="noopener">GOTO / The Negotiator</a></td></tr><tr><td>16% fall-through rate (2022)</td><td><a href="https://aimgroup.com/2025/04/04/report-highlights-why-u-k-has-such-high-property-fall-through-rates/" target="_blank" rel="noopener">GOTO / AIM Group</a></td></tr><tr><td>~£8.6bn economic cost (2024)</td><td><a href="https://thenegotiator.co.uk/news/uk-housing-market-news/report-uk-worst-property-transaction-fall-through-rates/" target="_blank" rel="noopener">GOTO / The Negotiator</a></td></tr><tr><td>~£2,727 average cost to buyer per failed sale</td><td><a href="https://thenegotiator.co.uk/news/uk-housing-market-news/report-uk-worst-property-transaction-fall-through-rates/" target="_blank" rel="noopener">GOTO / The Negotiator</a></td></tr><tr><td>~£4,123 average cost to agency per fall-through</td><td><a href="https://thenegotiator.co.uk/news/uk-housing-market-news/report-uk-worst-property-transaction-fall-through-rates/" target="_blank" rel="noopener">GOTO / The Negotiator</a></td></tr><tr><td>~30% / ~1 in 3 industry estimate (England and Wales)</td><td><a href="https://propertyrescue.co.uk/useful-guides-articles/what-percentage-of-house-sales-fall-through/" target="_blank" rel="noopener">Property Rescue</a></td></tr><tr><td>27.3% survey-related fall-through (2024)</td><td><a href="https://thenegotiator.co.uk/news/uk-housing-market-news/report-uk-worst-property-transaction-fall-through-rates/" target="_blank" rel="noopener">GOTO / The Negotiator</a></td></tr><tr><td>22% chain breakdown (top cited)</td><td><a href="https://www.estateagenttoday.co.uk/breaking-news/2026/02/fall-throughs-cost-buyers-thousands-new-data/" target="_blank" rel="noopener">Barclays via Estate Agent Today</a></td></tr><tr><td>13% gazumping; 11% gazundering</td><td><a href="https://www.estateagenttoday.co.uk/breaking-news/2026/02/fall-throughs-cost-buyers-thousands-new-data/" target="_blank" rel="noopener">Barclays via Estate Agent Today</a></td></tr><tr><td>46% of chain buyers experienced delays/fall-through</td><td><a href="https://www.estateagenttoday.co.uk/breaking-news/2026/02/fall-throughs-cost-buyers-thousands-new-data/" target="_blank" rel="noopener">Barclays via Estate Agent Today</a></td></tr><tr><td>15% would only sell to cash/first-time buyer next time</td><td><a href="https://www.estateagenttoday.co.uk/breaking-news/2026/02/fall-throughs-cost-buyers-thousands-new-data/" target="_blank" rel="noopener">Barclays via Estate Agent Today</a></td></tr></tbody></table></div>
+<h3 id="england-vs-scotland">England vs Scotland</h3>
+<div class='table-wrap'><table><thead><tr><th>Figure</th><th>Source</th></tr></thead><tbody><tr><td>27.3% England fall-through (Jul–Sep 2023)</td><td><a href="https://espc.com/news/post/property-sales-more-likely-to-be-successful-in-scotland-than-england" target="_blank" rel="noopener">ESPC</a></td></tr><tr><td>8.7% Scotland fall-through (Jul–Oct 2023)</td><td><a href="https://espc.com/news/post/property-sales-more-likely-to-be-successful-in-scotland-than-england" target="_blank" rel="noopener">ESPC</a></td></tr><tr><td>~8–9% Scotland post-offer estimate</td><td><a href="https://propertyrescue.co.uk/useful-guides-articles/what-percentage-of-house-sales-fall-through/" target="_blank" rel="noopener">Property Rescue</a></td></tr></tbody></table></div>
+<h3 id="transaction-timelines">Transaction timelines</h3>
+<div class='table-wrap'><table><thead><tr><th>Figure</th><th>Source</th></tr></thead><tbody><tr><td>122 days average to buy (2024)</td><td><a href="https://www.yourmoney.com/mortgages/first-time-buyer/leasehold-stamp-duty-and-home-buying-and-selling-process-are-fastest-growing-concerns-for-homebuyers-over-past-decade/" target="_blank" rel="noopener">TwentyCi via HomeOwners Alliance</a></td></tr><tr><td>104 days offer to exchange (Apr 2025)</td><td><a href="https://www.connellsgroup.co.uk/news/2026/05/11/conveyancing-delays-push-time-to-exchange-contracts-past-100-days/" target="_blank" rel="noopener">Connells / Hamptons</a></td></tr><tr><td>155 days leasehold vs 97 days freehold to exchange</td><td><a href="https://www.connellsgroup.co.uk/news/2026/05/11/conveyancing-delays-push-time-to-exchange-contracts-past-100-days/" target="_blank" rel="noopener">Connells / Hamptons</a></td></tr></tbody></table></div>
+<h3 id="information-gap-and-reform">Information gap and reform</h3>
+<div class='table-wrap'><table><thead><tr><th>Figure</th><th>Source</th></tr></thead><tbody><tr><td>≤2% felt sufficient information pre-offer</td><td><a href="https://www.gov.uk/government/consultations/home-buying-and-selling-reform/home-buying-and-selling-reform" target="_blank" rel="noopener">Ministry of Housing, Communities and Local Government consultation</a></td></tr><tr><td>~35% listings adequate material information</td><td><a href="https://www.gov.uk/government/consultations/material-information-in-property-listings/material-information-in-property-listings" target="_blank" rel="noopener">National Trading Standards Estate and Letting Agency Team</a></td></tr><tr><td>Fall-through 1-in-3 → 1-in-7 with upfront info</td><td><a href="https://propertyrescue.co.uk/useful-guides-articles/what-percentage-of-house-sales-fall-through/" target="_blank" rel="noopener">Ministry of Housing, Communities and Local Government / Property Rescue</a></td></tr></tbody></table></div>
+<h3 id="housing-concerns-and-leasehold">Housing concerns and leasehold</h3>
+<div class='table-wrap'><table><thead><tr><th>Figure</th><th>Source</th></tr></thead><tbody><tr><td>81% first-time buyer concern; leasehold 42%→64%</td><td><a href="https://hoa.org.uk/wp-content/uploads/2025/08/2025-HomeOwner-survey-report-Final.pdf" target="_blank" rel="noopener">HomeOwners Alliance 2025 PDF</a></td></tr><tr><td>4.3 million households with lease</td><td><a href="https://www.gov.uk/government/statistics/leasehold-dwellings-2024-to-2025/leasehold-dwellings-2024-to-2025" target="_blank" rel="noopener">Gov.uk leasehold dwellings 2024–25</a></td></tr></tbody></table></div>
+<h3 id="home-information-packs-historical">Home Information Packs (historical)</h3>
+<div class='table-wrap'><table><thead><tr><th>Figure</th><th>Source</th></tr></thead><tbody><tr><td>&lt;1 in 6 trusted seller condition info</td><td><a href="https://www.gov.uk/government/news/lack-of-trust-condemned-hips-to-failure" target="_blank" rel="noopener">Gov.uk Ipsos MORI</a></td></tr><tr><td>Council of Mortgage Lenders search duplication</td><td><a href="https://www.estatesgazette.co.uk/legal/scheme-that-is-too-hip-to-handle-ends/" target="_blank" rel="noopener">Estates Gazette</a></td></tr></tbody></table></div>
+<h3 id="referral-economics">Referral economics</h3>
+<div class='table-wrap'><table><thead><tr><th>Figure</th><th>Source</th></tr></thead><tbody><tr><td>Conveyancing referral £250–£400</td><td><a href="https://www.legalservicesboard.org.uk/news_publications/latest_news/pdf/cra_impact_of_referral_arrangements_final_14may2010(STC" target="_blank" rel="noopener">Legal Services Board 2010</a>.pdf)</td></tr><tr><td>Disclosure requirement</td><td><a href="https://www.nationaltradingstandards.uk/uploads/Referral%20Fee%20Report%20Feb%202020.pdf" target="_blank" rel="noopener">National Trading Standards Referral Fee Report 2020</a></td></tr></tbody></table></div>
+<h3 id="competitors">Competitors</h3>
+<div class='table-wrap'><table><thead><tr><th>Figure</th><th>Source</th></tr></thead><tbody><tr><td>Gazeal: &lt;£1M turnover, 6 employees, £35k court case</td><td><a href="https://open.endole.co.uk/insight/company/06772691-gazeal-limited" target="_blank" rel="noopener">Endole</a>, <a href="https://thenegotiator.co.uk/news/regulation-law-news/buyer-who-withdrew-unreasonably-from-property-sale-to-pay-35000/" target="_blank" rel="noopener">The Negotiator</a></td></tr><tr><td>Moverly: $1.22M funding</td><td><a href="https://www.thecompanycheck.com/company/b/moverly/guykistws82oojhgf" target="_blank" rel="noopener">Company Check</a></td></tr><tr><td>Emoov: ~£150M spend, ~7% share</td><td><a href="https://thenegotiator.co.uk/news/emoov-online-agents-quirk/" target="_blank" rel="noopener">The Negotiator / Quirk</a></td></tr><tr><td>Purplebricks: sold £1; £37.8M loss</td><td><a href="https://www.bbc.com/news/business-65623561" target="_blank" rel="noopener">BBC</a></td></tr><tr><td>Upstix: -£7.25M pre-tax</td><td><a href="https://pomanda.com/company/13180792/upstix-technologies-ltd" target="_blank" rel="noopener">Pomanda</a></td></tr><tr><td>Redbrik SecureMove: ~8% fall-through; £595 reservation fee</td><td><a href="https://todaysconveyancer.co.uk/upfront-information-sees-estate-agency-slash-fall-through-rate/" target="_blank" rel="noopener">Today&#x27;s Conveyancer</a>, <a href="https://www.redbrik.co.uk/securemove/" target="_blank" rel="noopener">Redbrik</a></td></tr></tbody></table></div>
+<h3 id="illustrative-financial-model">Illustrative financial model</h3>
+<p>All figures in <a href="03-economics.md" target="_blank" rel="noopener">03-economics.md</a> and <a href="../financials/unit-economics.csv" target="_blank" rel="noopener">../financials/unit-economics.csv</a> are <strong>planning assumptions</strong> unless matching sourced referral ranges above.</p>
+<hr>
+<h2 id="glossary">Glossary</h2>
+<p>Plain-English definitions for terms used across this documentation.</p>
+<div class='table-wrap'><table><thead><tr><th>Term</th><th>Meaning</th></tr></thead><tbody><tr><td><strong>Attach rate</strong></td><td>Percentage of deals where a given revenue line (e.g. mortgage referral) actually applies</td></tr><tr><td><strong>Beachhead</strong></td><td>Initial market segment chosen for focused launch before broader expansion</td></tr><tr><td><strong>Business-to-business-to-consumer (B2B2C)</strong></td><td>Selling through a business channel (estate agent) to reach end consumers</td></tr><tr><td><strong>Buyer information pack (BIP)</strong></td><td>Collection of legal and property documents provided to the buyer before or at offer</td></tr><tr><td><strong>Contribution margin</strong></td><td>Revenue per deal minus direct costs attributable to that deal</td></tr><tr><td><strong>Customer acquisition cost (CAC)</strong></td><td>Cost to acquire one paying customer</td></tr><tr><td><strong>Council of Mortgage Lenders (CML)</strong></td><td>Former UK trade body for mortgage lenders; relevant to search-insurance liability that sank Home Information Packs</td></tr><tr><td><strong>Consumer Protection Regulations (CPRs)</strong></td><td>UK rules requiring transparent disclosure of referral fees to consumers</td></tr><tr><td><strong>Digital Sale Ready (DSR)</strong></td><td>Industry standard for sale-ready property data packs</td></tr><tr><td><strong>Energy Performance Certificate (EPC)</strong></td><td>Mandatory rating of a property&#x27;s energy efficiency</td></tr><tr><td><strong>Exchange of contracts</strong></td><td>Point at which a UK property sale becomes legally binding</td></tr><tr><td><strong>Fall-through</strong></td><td>Agreed sale that collapses before legal completion</td></tr><tr><td><strong>Financial Conduct Authority appointed representative (FCA AR)</strong></td><td>Firm authorised to sell regulated financial products under a principal&#x27;s licence</td></tr><tr><td><strong>First-time buyer (FTB)</strong></td><td>Person buying their first residential property</td></tr><tr><td><strong>Gazumping</strong></td><td>Seller accepts a higher offer after already agreeing a sale</td></tr><tr><td><strong>Gazundering</strong></td><td>Buyer lowers their offer after sale agreed</td></tr><tr><td><strong>Home Information Pack (HIP)</strong></td><td>Mandatory seller-funded pack scheme (2007–2010); scrapped after trust and search-duplication failures</td></tr><tr><td><strong>Home Report</strong></td><td>Scotland&#x27;s mandatory seller-funded survey, questionnaire, and Energy Performance Certificate bundle</td></tr><tr><td><strong>Ideal customer profile (ICP)</strong></td><td>Description of the best-fit early customer segment</td></tr><tr><td><strong>Instant buyer (iBuyer)</strong></td><td>Company that buys homes directly for cash; capital-intensive model</td></tr><tr><td><strong>Ministry of Housing, Communities and Local Government (MHCLG)</strong></td><td>UK government department responsible for housing policy</td></tr><tr><td><strong>Missives</strong></td><td>Scottish solicitor letters that form the binding contract earlier than English exchange</td></tr><tr><td><strong>Moat</strong></td><td>Sustainable competitive advantage that is hard to replicate</td></tr><tr><td><strong>National Trading Standards Estate and Letting Agency Team (NTSELAT)</strong></td><td>UK regulator for estate and letting agency conduct, including referral fee disclosure</td></tr><tr><td><strong>Procuration fee</strong></td><td>Commission paid by a mortgage lender to a broker on mortgage completion</td></tr><tr><td><strong>Property Data Trust Framework (PDTF)</strong></td><td>Open standard for structured property transaction data</td></tr><tr><td><strong>Professional indemnity (PI)</strong></td><td>Insurance covering professional negligence claims</td></tr><tr><td><strong>Reservation agreement</strong></td><td>Contract signed at offer acceptance committing both parties with financial consequences for unreasonable withdrawal</td></tr><tr><td><strong>Royal Institution of Chartered Surveyors (RICS)</strong></td><td>Professional body for surveyors</td></tr><tr><td><strong>Sold subject to contract (STC)</strong></td><td>Sale agreed in principle but not yet legally binding</td></tr><tr><td><strong>Take rate</strong></td><td>Percentage or amount Lockstep retains from a transaction or referral</td></tr><tr><td><strong>TA6</strong></td><td>Law Society property information form covering fixtures, boundaries, disputes, and alterations</td></tr><tr><td><strong>Transferable searches</strong></td><td>Local authority and other searches that can be passed from seller&#x27;s pack to buyer&#x27;s conveyancer without re-ordering</td></tr><tr><td><strong>Unit economics</strong></td><td>Revenue and cost per transaction — the fundamental profitability building block</td></tr></tbody></table></div>
+<hr>
+<p>*Compiled June 2026 for Lockstep planning documentation.*</p></section>
+  </div>
+
+  <footer>
+    <strong>Lockstep</strong> · internal planning · citations in section 10 · May 2026
+  </footer>
+
+  <script>
+    (function () {
+      const root = document.documentElement;
+      const btn = document.getElementById("theme-toggle");
+      const stored = localStorage.getItem("lockstep-theme");
+      if (stored === "light") applyTheme("light");
+
+      btn.addEventListener("click", function () {
+        const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        applyTheme(next);
+        localStorage.setItem("lockstep-theme", next);
+      });
+
+      function applyTheme(theme) {
+        root.setAttribute("data-theme", theme);
+        btn.textContent = theme === "dark" ? "Light mode" : "Dark mode";
+        btn.setAttribute("aria-pressed", theme === "light" ? "true" : "false");
+        window.dispatchEvent(new CustomEvent("lockstep-theme", { detail: theme }));
+      }
+    })();
+  </script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+
+    function initMermaid(theme) {
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: theme === "light" ? "base" : "dark",
+        securityLevel: "loose",
+        themeVariables: theme === "light" ? {primaryColor: "#2d6a4f", lineColor: "#5a6b82", primaryTextColor: "#1a2332"} : {primaryColor: "#52b788", lineColor: "#8fa3be", primaryTextColor: "#e8eef6"}
+      });
+      mermaid.run({ querySelector: ".mermaid" });
+    }
+
+    const initial = document.documentElement.getAttribute("data-theme") || "dark";
+    initMermaid(initial);
+    window.addEventListener("lockstep-theme", (e) => {
+      document.querySelectorAll(".mermaid").forEach((el) => {
+        el.removeAttribute("data-processed");
+      });
+      initMermaid(e.detail);
+    });
+  </script>
+</body>
+</html>

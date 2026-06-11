@@ -1,0 +1,16 @@
+line,full_value_gbp,attach_rate_conservative,attach_rate_base,attach_rate_optimistic,cost_per_deal_gbp,notes
+reservation_fee,500,1.0,1.0,1.0,200,Buyer-paid; net after search/pack cost
+conveyancing_referral_buyer,250,0.5,0.7,0.85,0,Partner pays referral
+conveyancing_referral_seller,250,0.2,0.4,0.6,0,Partner pays referral
+mortgage_referral,400,0.3,0.5,0.7,0,Broker procuration fee
+survey_referral,100,0.3,0.45,0.6,0,Surveyor referral
+insurance_commission,60,0.2,0.3,0.45,0,Home-buyer protection
+direct_cost_searches,0,1.0,1.0,1.0,200,Paid to search provider
+direct_cost_aml,0,1.0,1.0,1.0,20,ID/AML verification
+direct_cost_payment,0,1.0,1.0,1.0,15,Card/bank fees
+agent_share_pct_of_rail_revenue,0.3,1.0,1.0,1.0,0,30% of referral revenue only
+contribution_per_completed_base,677,1.0,1.0,1.0,0,Calculated in financials doc
+completion_rate_platform,0.85,1.0,1.0,1.0,0,vs market ~70%
+market_fallthrough_rate,0.298,1.0,1.0,1.0,0,GOTO 2024
+scotland_fallthrough_rate,0.087,1.0,1.0,1.0,0,ESPC 2023
+england_fallthrough_rate,0.30,1.0,1.0,1.0,0,Industry estimate
