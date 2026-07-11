@@ -1,50 +1,133 @@
-# Lockstep — Business Plan
+# Lockstep
 
-**Lockstep** (working title) is the certainty platform for UK residential sales: sale-ready pack on the listing, binding reservation at offer, partners to completion — **fees on the table**, sold through agents.
+Next.js full-stack starter with Supabase Postgres. The app uses Route Handlers for the API layer (no separate backend service).
 
-Planning docs only. Open **`report/index.html`** for the presentable deck (toggle light in the nav).
+- **Repository:** [github.com/gorwelin/lockstep](https://github.com/gorwelin/lockstep)
+- **Dev URL:** [http://localhost:3001](http://localhost:3001)
+- **Business plan:** [`plan/`](plan/) (docs, charts, report)
 
----
+## Prerequisites
 
-## Contents
+- Node.js 20+
+- npm
+- A [Supabase](https://supabase.com) cloud project (free tier)
+- GitHub CLI (`gh`) authenticated as **gorwelin** for repo operations
 
-| Document | Description |
-|----------|-------------|
-| [docs/00-executive-summary.md](docs/00-executive-summary.md) | One-page synthesis |
-| [docs/01-market-and-problem.md](docs/01-market-and-problem.md) | Market size, statistics, problem clusters, Scotland proof point |
-| [docs/02-product-and-mechanics.md](docs/02-product-and-mechanics.md) | Product, two-layer model, flows, chain handling |
-| [docs/03-economics.md](docs/03-economics.md) | Revenue model and unit economics (illustrative) |
-| [docs/04-competition-and-risk.md](docs/04-competition-and-risk.md) | Competitors, precedents, risk register, mitigations |
-| [docs/05-go-to-market.md](docs/05-go-to-market.md) | Agent adoption, product surfaces, roadmap, metrics |
-| [docs/06-sources-and-glossary.md](docs/06-sources-and-glossary.md) | Source index and plain-English glossary |
-| [financials/unit-economics.csv](financials/unit-economics.csv) | Editable model inputs |
-| [report/index.html](report/index.html) | Generated presentable report |
+## Port strategy
 
----
+Lockstep runs on **port 3001** to avoid conflicts with other local services:
 
-## Rebuild the report
+| Port | Known use | Avoid |
+|------|-----------|-------|
+| 80 | unilink-cli workstation mirror | Yes |
+| 3000 | optima-software (`nx serve`) | Yes |
+| 4200 | UCase UI (`nx serve`) | Yes |
+| 8091+ | UCase .NET services | Yes |
+| 81–99, 7083 | CMS docker-compose stacks | Yes |
+
+Check the port is free before starting:
 
 ```bash
-cd lockstep
-pip install -r scripts/requirements.txt
-python scripts/generate_charts.py
-python scripts/build_report.py
+lsof -i :3001
 ```
 
-Output:
+## Setup
 
-- `charts/*.png` — sourced market charts + illustrative financial charts
-- `report/index.html` — single styled HTML report with embedded charts and Mermaid diagrams
+### 1. Install dependencies
 
----
+```bash
+npm install
+```
 
-## Conventions
+### 2. Configure environment
 
-- **Market statistics** — sourced from published reports; see [docs/06-sources-and-glossary.md](docs/06-sources-and-glossary.md).
-- **Financial model** — illustrative assumptions for planning; labelled as such in [docs/03-economics.md](docs/03-economics.md).
-- **Positioning** — transparent middleman: disclosed referral/partner fees; openness as brand differentiator.
-- **Acronyms** — expanded on first use in each doc; full glossary in doc 06.
+```bash
+cp .env.example .env.local
+```
 
----
+Edit `.env.local` with values from your Supabase project (**Settings → API**):
 
-*Last updated: June 2026*
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+
+### 3. Create the database table
+
+In the Supabase Dashboard → **SQL Editor**, run:
+
+```sql
+-- or use supabase/seed-health-checks.sql
+create table if not exists public.health_checks (
+  id bigint generated always as identity primary key,
+  checked_at timestamptz not null default now()
+);
+
+insert into public.health_checks default values;
+```
+
+### 4. Run the dev server
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3001](http://localhost:3001) and verify [http://localhost:3001/api/health](http://localhost:3001/api/health) returns `db: "connected"`.
+
+## Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start dev server on port 3001 |
+| `npm run build` | Production build |
+| `npm run start` | Start production server on port 3001 |
+| `npm run lint` | Run ESLint |
+
+## Project structure
+
+```
+src/
+├── app/
+│   ├── api/health/route.ts   # Health + Supabase connectivity check
+│   ├── layout.tsx
+│   └── page.tsx
+├── lib/supabase/
+│   ├── client.ts             # Browser client
+│   ├── middleware.ts         # Session refresh helper
+│   └── server.ts             # Server/client Route Handler client
+└── middleware.ts             # Supabase cookie refresh
+supabase/
+└── seed-health-checks.sql    # Initial table seed SQL
+plan/
+├── docs/                     # Business plan markdown
+├── charts/                   # Generated charts
+├── report/                   # Presentable HTML report
+├── financials/               # Unit economics model
+└── scripts/                  # Chart/report generators
+```
+
+## Business plan
+
+Planning docs live under [`plan/`](plan/). See [`plan/README.md`](plan/README.md) for contents and how to rebuild the report.
+
+## GitHub
+
+Repo: [github.com/gorwelin/lockstep](https://github.com/gorwelin/lockstep) on the **gorwelin** personal account (`master` only).
+
+Push with the gorwelin SSH host:
+
+```bash
+git remote -v   # should use github.com-gorwelin
+```
+
+## Health check
+
+`GET /api/health` returns:
+
+```json
+{
+  "status": "ok",
+  "db": "connected",
+  "healthCheckCount": 1
+}
+```
+
+Without Supabase credentials or the `health_checks` table, it returns `503` with a helpful error message.
